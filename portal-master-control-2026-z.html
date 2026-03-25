@@ -155,6 +155,7 @@
                 <li><a href="#" data-view="plans"><i class="fas fa-tags"></i> Subscriptions</a></li>
                 <li><a href="#" data-view="clients"><i class="fas fa-users"></i> Client Manager</a></li>
                 <li><a href="#" data-view="payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li><a href="#" data-view="checkout-cms"><i class="fas fa-shopping-cart"></i> Checkout CMS</a></li>
                 <li style="margin-top: auto;"><a href="#" id="logout-btn" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </aside>
@@ -241,6 +242,30 @@
                     </div>
                 </div>
             </div>
+            <!-- CHECKOUT CMS -->
+            <div id="view-checkout-cms" class="view">
+                <div class="header">
+                    <h1>Checkout Page CMS</h1>
+                    <button class="btn btn-primary" id="save-checkout-cms"><i class="fas fa-save"></i> Update Checkout</button>
+                </div>
+                <div class="cms-grid">
+                    <div class="card">
+                        <div class="card-title">Testimonial</div>
+                        <div class="input-group"><label>Quote</label><textarea id="ch-quote" rows="3"></textarea></div>
+                        <div class="input-group"><label>Author Name</label><input type="text" id="ch-author"></div>
+                        <div class="input-group"><label>Author Title</label><input type="text" id="ch-title"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Checkout FAQ</div>
+                    <div id="faq-editor-container">
+                        <div class="input-group"><label>FAQ 1 Question</label><input type="text" id="faq1-q"></div>
+                        <div class="input-group"><label>FAQ 1 Answer</label><textarea id="faq1-a"></textarea></div>
+                        <div class="input-group"><label>FAQ 2 Question</label><input type="text" id="faq2-q"></div>
+                        <div class="input-group"><label>FAQ 2 Answer</label><textarea id="faq2-a"></textarea></div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -322,10 +347,39 @@
         function init() {
             loadDashboard();
             loadCMS();
+            loadCheckoutCMS();
             loadPlans();
             loadClients();
             loadPayments();
         }
+
+        async function loadCheckoutCMS() {
+            const s = await getDoc(doc(db, "site_config", "checkout"));
+            if(s.exists()) {
+                const d = s.data();
+                document.getElementById('ch-quote').value = d.quote || "";
+                document.getElementById('ch-author').value = d.author || "";
+                document.getElementById('ch-title').value = d.title || "";
+                document.getElementById('faq1-q').value = d.faq1q || "";
+                document.getElementById('faq1-a').value = d.faq1a || "";
+                document.getElementById('faq2-q').value = d.faq2q || "";
+                document.getElementById('faq2-a').value = d.faq2a || "";
+            }
+        }
+
+        document.getElementById('save-checkout-cms').onclick = async () => {
+            await setDoc(doc(db, "site_config", "checkout"), {
+                quote: document.getElementById('ch-quote').value,
+                author: document.getElementById('ch-author').value,
+                title: document.getElementById('ch-title').value,
+                faq1q: document.getElementById('faq1-q').value,
+                faq1a: document.getElementById('faq1-a').value,
+                faq2q: document.getElementById('faq2-q').value,
+                faq2a: document.getElementById('faq2-a').value,
+                updatedAt: serverTimestamp()
+            });
+            showToast("Checkout CMS Saved!");
+        };
 
         async function loadDashboard() {
             const u = await getDocs(query(collection(db, "users"), where("role","==","client")));

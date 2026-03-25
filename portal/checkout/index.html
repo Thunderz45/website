@@ -594,18 +594,90 @@
     </div>
   </footer>
 
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIYH5r5ftyFJn8M1ZpkAY24CEblH2rK-k",
+      authDomain: "leadgen-8297c.firebaseapp.com",
+      projectId: "leadgen-8297c",
+      storageBucket: "leadgen-8297c.firebasestorage.app",
+      messagingSenderId: "127112292824",
+      appId: "1:127112292824:web:be1831885335fe4d1a2aad"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadResources() {
+      // 1. Load Plans
+      const plansSnap = await getDocs(collection(db, "plans"));
+      if (!plansSnap.empty) {
+        const container = document.querySelector('.plans-wrapper');
+        container.innerHTML = '';
+        plansSnap.forEach(snap => {
+          const p = snap.data();
+          container.innerHTML += `
+            <div class="plan-card ${p.featured ? 'featured' : ''}">
+              ${p.featured ? '<div class="featured-label">Recommended</div>' : ''}
+              <div class="plan-info">
+                <h3>${p.name}</h3>
+                <p class="plan-sub">${p.sub || ''}</p>
+                <div class="plan-price">₹${p.price.toLocaleString()}<span>/mo</span></div>
+              </div>
+              <div class="plan-divider"></div>
+              <ul class="features-list">
+                ${p.features.map(f => `<li><span class="check-icon">✓</span> ${f}</li>`).join('')}
+              </ul>
+              <button class="pay-btn ${!p.featured ? 'pay-btn-primary' : ''}" onclick="initiatePayment('${p.name}', ${p.price})">
+                Subscribe Now
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          `;
+        });
+      }
+
+      // 2. Load Checkout CMS (FAQ & Testimonial)
+      const cmsSnap = await getDoc(doc(db, "site_config", "checkout"));
+      if (cmsSnap.exists()) {
+        const d = cmsSnap.data();
+        if (d.quote) document.querySelector('.quote-text').innerText = `"${d.quote}"`;
+        if (d.author) document.querySelector('.client-meta div div').innerText = d.author;
+        if (d.title) document.querySelector('.client-meta div div:nth-child(2)').innerText = d.title;
+
+        const faqContainer = document.querySelector('.faq-section');
+        const h2 = faqContainer.querySelector('h2');
+        faqContainer.innerHTML = '';
+        faqContainer.appendChild(h2);
+        
+        if (d.faq1q) addFAQ(faqContainer, d.faq1q, d.faq1a);
+        if (d.faq2q) addFAQ(faqContainer, d.faq2q, d.faq2a);
+      }
+    }
+
+    function addFAQ(container, q, a) {
+      if(!q) return;
+      const div = document.createElement('div');
+      div.className = 'faq-item';
+      div.innerHTML = `<div class="faq-q">${q}</div><div class="faq-a">${a || ''}</div>`;
+      container.appendChild(div);
+    }
+
+    loadResources();
+  </script>
+
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     function initiatePayment(planName, amount) {
       const options = {
-        "key": "rzp_test_ZUZVjnILOw9R3N", // Your Razorpay Key ID
-        "amount": amount * 100, // Amount in paise
+        "key": "rzp_test_ZUZVjnILOw9R3N", 
+        "amount": amount * 100,
         "currency": "INR",
         "name": "ClearPath Leads",
         "description": planName + " Subscription",
-        "image": "https://example.com/logo.png",
         "handler": function (response) {
-          // Success Feedback
           Swal.fire({
             title: 'Payment Successful!',
             text: 'Transaction ID: ' + response.razorpay_payment_id,
@@ -613,21 +685,12 @@
             confirmButtonColor: '#0F6E56'
           });
         },
-        "prefill": {
-          "name": "", // Optionally prefill if you have client info
-          "email": "",
-          "contact": ""
-        },
-        "theme": {
-          "color": "#0F6E56"
-        }
+        "theme": { "color": "#0F6E56" }
       };
       const rzp = new Razorpay(options);
       rzp.open();
     }
   </script>
-  <!-- Adding SweetAlert2 for professional alerts -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-
 </html>
