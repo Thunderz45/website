@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment — ClearPath Leads</title>
+  <title>Complete Your Subscription — ClearPath Leads</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300,500&display=swap"
     rel="stylesheet" />
   <style>
     *,
@@ -25,11 +25,13 @@
       --amber: #EF9F27;
       --amber-light: #FAEEDA;
       --amber-dark: #7a4a00;
-      --coral: #D85A30;
       --ink: #1a1a1a;
       --ink-soft: #555;
       --smoke: #f6f5f1;
       --white: #fff;
+      --glass: rgba(255, 255, 255, 0.85);
+      --border: rgba(0, 0, 0, 0.08);
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
     }
 
     html {
@@ -38,9 +40,10 @@
 
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--white);
+      background: #fafaf9;
       color: var(--ink);
-      overflow-x: hidden
+      overflow-x: hidden;
+      line-height: 1.6;
     }
 
     /* ─── NAV ─── */
@@ -49,10 +52,11 @@
       align-items: center;
       justify-content: center;
       padding: 1.5rem 3rem;
-      border-bottom: 1px solid rgba(0, 0, 0, .07);
-      background: rgba(255, 255, 255, .96);
-      backdrop-filter: blur(10px);
-      z-index: 200
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 200;
     }
 
     .logo {
@@ -75,7 +79,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0
     }
 
     .logo-box svg {
@@ -83,198 +86,352 @@
       height: 18px
     }
 
-    /* ─── SECTIONS ─── */
-    .section-header {
+    /* ─── HERO ─── */
+    .hero-pay {
+      padding: 5rem 2rem 3rem;
       text-align: center;
-      margin-bottom: 4.5rem
-    }
-
-    .sec-label {
-      font-size: .72rem;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: .7rem
-    }
-
-    .sec-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(1.9rem, 3vw, 2.8rem);
-      letter-spacing: -.03em;
-      margin-bottom: .75rem
-    }
-
-    .sec-sub {
-      font-size: 1rem;
-      color: var(--ink-soft);
-      max-width: 540px;
+      max-width: 800px;
       margin: 0 auto;
-      line-height: 1.72;
-      font-weight: 300
+    }
+
+    .badge-top {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-pay h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-pay p {
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ─── STEPS ─── */
+    .pay-steps {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 3rem 0;
+      flex-wrap: wrap;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      background: var(--teal);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+    }
+
+    .step-item.active {
+      color: var(--ink);
+      font-weight: 700;
     }
 
     /* ─── PLANS ─── */
-    .plans-section {
-      padding: 6rem 2rem;
-      background: var(--smoke)
-    }
-
-    .plans-grid {
-      max-width: 1000px;
-      margin: 3.5rem auto 0;
+    .plans-wrapper {
+      max-width: 1100px;
+      margin: 0 auto 6rem;
+      padding: 0 2rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem
+      gap: 2.5rem;
     }
 
-    .plan {
+    .plan-card {
       background: var(--white);
-      border: 1px solid rgba(0, 0, 0, .08);
-      border-radius: 20px;
-      padding: 3rem;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3.5rem;
       position: relative;
-      transition: all .3s;
-      cursor: default;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
     }
 
-    .plan.featured {
-      background: var(--teal);
-      border-color: var(--teal);
-      transform: scale(1.03);
+    .plan-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.08);
+      border-color: rgba(15, 110, 86, 0.2);
     }
 
-    .plan.featured .plan-price,
-    .plan.featured .plan-name,
-    .plan.featured .plan-sub {
-      color: #fff !important
+    .plan-card.featured {
+      background: #0d5a47;
+      border-color: #0d5a47;
+      color: white;
     }
 
-    .plan.featured li {
-      color: rgba(255, 255, 255, .85) !important
-    }
-
-    .plan.featured .pcheck {
-      color: var(--amber) !important
-    }
-
-    .plan.featured .plan-div {
-      background: rgba(255, 255, 255, .2) !important
-    }
-
-    .plan.featured .plan-btn {
-      background: #fff;
-      color: var(--teal);
-      border-color: #fff
-    }
-
-    .pop-badge {
+    .featured-label {
       position: absolute;
       top: 24px;
       right: 24px;
       background: var(--amber);
       color: #3a1f00;
-      font-size: .68rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 800;
       padding: 6px 14px;
-      border-radius: 100px
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .plan-name {
+    .plan-info h3 {
       font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1.25rem;
-      margin-bottom: .6rem
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
     }
 
     .plan-price {
       font-family: 'Syne', sans-serif;
+      font-size: 3.2rem;
       font-weight: 800;
-      font-size: 2.8rem;
-      line-height: 1.1
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
     }
 
     .plan-price span {
       font-size: 1.1rem;
       font-weight: 400;
-      color: var(--ink-soft)
+      opacity: 0.7;
     }
 
-    .plan-sub {
-      font-size: 0.95rem;
-      color: var(--ink-soft);
-      margin: .6rem 0 1.5rem
-    }
-
-    .plan-div {
+    .plan-divider {
       height: 1px;
-      background: rgba(0, 0, 0, .08);
-      margin-bottom: 1.5rem
+      background: var(--border);
+      margin: 2rem 0;
     }
 
-    .plan ul {
+    .featured .plan-divider {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .features-list {
       list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 2rem
+      margin-bottom: 2.5rem;
     }
 
-    .plan li {
-      font-size: 0.95rem;
+    .features-list li {
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      color: var(--ink-soft)
-    }
-
-    .pcheck {
-      color: var(--teal);
-      font-weight: 700
-    }
-
-    .plan-btn {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 12px;
+      gap: 12px;
       font-size: 1rem;
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--teal-light);
+      color: var(--teal);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .featured .check-icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--amber);
+    }
+
+    .pay-btn {
+      width: 100%;
+      padding: 1.2rem;
+      border-radius: 14px;
       font-family: 'DM Sans', sans-serif;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
       cursor: pointer;
-      border: 2px solid var(--teal);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .pay-btn-primary {
       background: var(--teal);
-      color: #fff;
-      transition: all .22s;
+      color: white;
     }
 
-    .plan-btn:hover {
+    .pay-btn-primary:hover {
       background: var(--teal-dark);
-      border-color: var(--teal-dark);
-      transform: translateY(-2px);
+      transform: scale(1.02);
     }
 
-    /* ─── RAZORPAY ─── */
-    .razorpay-section {
+    .featured .pay-btn {
+      background: white;
+      color: var(--teal-dark);
+    }
+
+    .featured .pay-btn:hover {
+      background: #f8f8f8;
+      transform: scale(1.02);
+    }
+
+    /* ─── TRUST SECTION ─── */
+    .trust-section {
+      background: var(--white);
       padding: 6rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .trust-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .trust-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      opacity: 0.6;
+      margin-top: 2rem;
+    }
+
+    .trust-logos img {
+      height: 24px;
+      filter: grayscale(1);
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .client-quote {
+      background: var(--smoke);
+      padding: 2.5rem;
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .quote-text {
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .client-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .client-av {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* ─── FAQ ─── */
+    .faq-section {
+      padding: 6rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      padding: 1.25rem 1.5rem;
+      background: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .faq-a {
+      padding: 0 1.5rem 1.5rem;
+      background: var(--white);
+      color: var(--ink-soft);
+      font-size: 0.95rem;
     }
 
     /* ─── FOOTER ─── */
     footer {
       background: var(--ink);
-      color: rgba(255, 255, 255, .5);
-      padding: 3rem;
+      color: rgba(255, 255, 255, 0.4);
+      padding: 4rem 2rem;
       text-align: center;
-      font-size: .9rem
     }
 
-    @media(max-width:860px) {
-      .plans-grid {
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      color: white;
+      text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media(max-width: 860px) {
+      .plans-wrapper, .trust-grid {
         grid-template-columns: 1fr;
-        padding: 0 1.5rem;
       }
-      .plan.featured {
-        transform: none;
+      .hero-pay h1 {
+        font-size: 2.5rem;
       }
     }
   </style>
@@ -283,7 +440,7 @@
 <body>
 
   <nav>
-    <a href="#" class="logo">
+    <a href="index.html" class="logo">
       <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
           <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
             stroke-linejoin="round" />
@@ -292,100 +449,174 @@
     </a>
   </nav>
 
-  <section class="plans-section">
-    <div class="section-header">
-      <div class="sec-label">Choose your plan</div>
-      <h2 class="sec-title">Complete your payment</h2>
-      <p class="sec-sub">Select the subscription that fits your growth goals. Payments are secured and verified by Razorpay.</p>
-    </div>
-    <div class="plans-grid">
-      <!-- Starter -->
-      <div class="plan">
-        <div class="plan-name">Starter Plan</div>
-        <div class="plan-price">₹12,499<span>/mo</span></div>
-        <div class="plan-sub">For freelancers and solo closers.</div>
-        <div class="plan-div"></div>
-        <ul>
-          <li><span class="pcheck">✓</span> 150 verified leads / month</li>
-          <li><span class="pcheck">✓</span> 2 industry verticals</li>
-          <li><span class="pcheck">✓</span> Real-time email delivery</li>
-          <li><span class="pcheck">✓</span> Basic lead scoring</li>
-        </ul>
-        <button class="plan-btn" onclick="initiatePayment('Starter Plan', 12499)">Select & Pay</button>
+  <section class="hero-pay">
+    <span class="badge-top">Secure Checkout</span>
+    <h1>Finalize Your Access</h1>
+    <p>Join 2,400+ high-growth businesses using ClearPath Leads to automate their sales pipeline.</p>
+    
+    <div class="pay-steps">
+      <div class="step-item active">
+        <div class="step-num">1</div> Select Plan
       </div>
-
-      <!-- Growth (Featured) -->
-      <div class="plan featured">
-        <div class="pop-badge">Recommended</div>
-        <div class="plan-name">Growth Plan</div>
-        <div class="plan-price">₹33,499<span>/mo</span></div>
-        <div class="plan-sub">For scaling teams needing speed.</div>
-        <div class="plan-div"></div>
-        <ul>
-          <li><span class="pcheck">✓</span> 500 verified leads / month</li>
-          <li><span class="pcheck">✓</span> Unlimited industry verticals</li>
-          <li><span class="pcheck">✓</span> CRM + Slack integrations</li>
-          <li><span class="pcheck">✓</span> Advanced intent scoring</li>
-        </ul>
-        <button class="plan-btn" onclick="initiatePayment('Growth Plan', 33499)">Select & Pay</button>
+      <div class="step-item">
+        <div class="step-num">2</div> Secure Payment
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div> Get Leads
       </div>
     </div>
   </section>
 
-  <section class="razorpay-section">
-    <div style="max-width: 900px; margin: 0 auto; background: var(--white); border: 1px solid rgba(0,0,0,.08); border-radius: 20px; padding: 3rem; display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; box-shadow: 0 10px 40px rgba(0,0,0,0.02);">
-      <div style="flex: 1.2; min-width: 320px;">
-        <h3 style="font-family: 'Syne', sans-serif; margin-bottom: 1.5rem; font-size: 1.4rem;">Payment Security</h3>
-        <p style="color: var(--ink-soft); line-height: 1.7; margin-bottom: 1.5rem;">We use Razorpay, India's leading payment gateway, to ensure your transactions are safe and verified. Your sensitive details are handled with top-tier encryption.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ 256-bit SSL Encryption</span>
-          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ 3D Secure Verification</span>
-          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ PCI-DSS Level 1 Compliant</span>
+  <div class="plans-wrapper">
+    <!-- Starter Card -->
+    <div class="plan-card">
+      <div class="plan-info">
+        <h3>Starter Plan</h3>
+        <p class="plan-sub">Perfect for solo closers and freelancers.</p>
+        <div class="plan-price">₹12,499<span>/mo</span></div>
+      </div>
+      <div class="plan-divider"></div>
+      <ul class="features-list">
+        <li><span class="check-icon">✓</span> 150 verified leads / month</li>
+        <li><span class="check-icon">✓</span> 2 industry verticals</li>
+        <li><span class="check-icon">✓</span> Real-time email delivery</li>
+        <li><span class="check-icon">✓</span> Basic intent scoring</li>
+        <li><span class="check-icon">✓</span> Email support</li>
+      </ul>
+      <button class="pay-btn pay-btn-primary" onclick="initiatePayment('Starter Plan', 12499)">
+        Subscribe Now
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Growth Card -->
+    <div class="plan-card featured">
+      <div class="featured-label">Recommended</div>
+      <div class="plan-info">
+        <h3>Growth Plan</h3>
+        <p class="plan-sub">The ultimate scale-up engine for teams.</p>
+        <div class="plan-price">₹33,499<span>/mo</span></div>
+      </div>
+      <div class="plan-divider"></div>
+      <ul class="features-list">
+        <li><span class="check-icon">✓</span> 500 verified leads / month</li>
+        <li><span class="check-icon">✓</span> Unlimited industry verticals</li>
+        <li><span class="check-icon">✓</span> CRM + Slack integrations</li>
+        <li><span class="check-icon">✓</span> Advanced intent scoring</li>
+        <li><span class="check-icon">✓</span> Priority 24/7 support</li>
+      </ul>
+      <button class="pay-btn" onclick="initiatePayment('Growth Plan', 33499)">
+        Subscribe Now
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <section class="trust-section">
+    <div class="trust-container">
+      <div class="trust-grid">
+        <div>
+          <h2 style="font-family: 'Syne', sans-serif; font-size: 2rem; margin-bottom: 1rem;">Bank-Level Security</h2>
+          <p style="color: var(--ink-soft); margin-bottom: 2rem;">Your security is our top priority. We use industry-standard encryption and partner with Razorpay to process all transactions securely.</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div style="display: flex; gap: 10px; align-items: start;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3395FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">SSL Encrypted</div>
+                <div style="font-size: 0.75rem; color: var(--ink-soft);">All data is 256-bit encrypted.</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: start;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3395FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <div>
+                <div style="font-weight: 700; font-size: 0.9rem;">Verified Gateway</div>
+                <div style="font-size: 0.75rem; color: var(--ink-soft);">PCI-DSS Level 1 compliant.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trust-logos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay">
+          </div>
+        </div>
+
+        <div class="client-quote">
+          <p class="quote-text">"We've been using ClearPath for 6 months. The payment process was seamless and the ROI we saw within the first month was over 4x. Highly recommend."</p>
+          <div class="client-meta">
+            <div class="client-av">JR</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Jamie Reyes</div>
+              <div style="font-size: 0.75rem; color: var(--ink-soft);">Sales Director, Helix Software</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="flex: 1; min-width: 250px; text-align: center; background: #f0f7ff; border-radius: 20px; padding: 3rem;">
-        <div style="background: white; width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3395FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        </div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay Logo" style="width: 150px; margin-bottom: 1.2rem;">
-        <p style="font-size: 0.85rem; color: #4B6C92; font-weight: 600;">Official Payment Partner</p>
-      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2 style="font-family: 'Syne', sans-serif; text-align: center; margin-bottom: 3rem;">Payment FAQ</h2>
+    <div class="faq-item">
+      <div class="faq-q">Can I cancel my subscription anytime?</div>
+      <div class="faq-a">Yes, there are no long-term contracts. You can cancel your subscription at any time through your dashboard or by reaching out to support.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What payment methods are accepted?</div>
+      <div class="faq-a">Through Razorpay, we accept all major Credit/Debit Cards, UPI (GPay, PhonePe), NetBanking, and popular mobile wallets.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will I get an invoice for my payment?</div>
+      <div class="faq-a">Absolutely. After each successful payment, an automated GST-compliant invoice will be sent to your registered email address.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do you store my credit card information?</div>
+      <div class="faq-a">No. All payment processing is handled by Razorpay. We never store or even see your sensitive card details.</div>
     </div>
   </section>
 
   <footer>
-    <div style="margin-bottom: 1.5rem;">
-      <a href="index.html" class="logo" style="justify-content: center; color: #fff;">
+    <div class="footer-content">
+      <a href="index.html" class="footer-logo">
         <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
             <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
               stroke-linejoin="round" />
           </svg></div>
         ClearPath Leads
       </a>
+      <p style="margin-bottom: 1.5rem;">The engine for high-performance sales teams.</p>
+      <div style="font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase;">
+        © 2026 ClearPath Leads — Secure Payment Portal
+      </div>
     </div>
-    <p>© 2026 ClearPath Leads. All rights reserved.</p>
   </footer>
 
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     function initiatePayment(planName, amount) {
       const options = {
-        "key": "rzp_test_ZUZVjnILOw9R3N", // Enter your Key ID here
-        "amount": amount * 100, // Amount is in currency subunits (paise)
+        "key": "rzp_test_ZUZVjnILOw9R3N", // Your Razorpay Key ID
+        "amount": amount * 100, // Amount in paise
         "currency": "INR",
         "name": "ClearPath Leads",
         "description": planName + " Subscription",
         "image": "https://example.com/logo.png",
         "handler": function (response) {
-          alert("Payment Successful! ID: " + response.razorpay_payment_id);
-          // You would typically send this ID to your backend now to unlock the account
+          // Success Feedback
+          Swal.fire({
+            title: 'Payment Successful!',
+            text: 'Transaction ID: ' + response.razorpay_payment_id,
+            icon: 'success',
+            confirmButtonColor: '#0F6E56'
+          });
         },
         "prefill": {
-          "name": "Your Client",
-          "email": "client@example.com",
-          "contact": "9999999999"
+          "name": "", // Optionally prefill if you have client info
+          "email": "",
+          "contact": ""
         },
         "theme": {
           "color": "#0F6E56"
@@ -395,6 +626,8 @@
       rzp.open();
     }
   </script>
+  <!-- Adding SweetAlert2 for professional alerts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
