@@ -121,7 +121,7 @@
         #toast.active { display: flex; animation: slideIn 0.3s ease; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -283,14 +283,20 @@
         const db = getFirestore(app);
 
         // --- AUTH ---
-        document.getElementById('login-form').onsubmit = (e) => {
+        document.getElementById('login-form').onsubmit = async (e) => {
             e.preventDefault();
-            if(document.getElementById('admin-password').value === 'admin123') {
-                document.getElementById('auth-view').classList.add('hidden');
-                document.getElementById('admin-layout').classList.remove('hidden');
-                init();
-            } else {
-                alert("Incorrect Key");
+            try {
+                if(document.getElementById('admin-password').value === 'admin123') {
+                    document.getElementById('auth-view').classList.add('hidden');
+                    document.getElementById('admin-layout').classList.remove('hidden');
+                    console.log("Master key accepted, initializing...");
+                    await init();
+                } else {
+                    alert("Incorrect Master Key");
+                }
+            } catch (err) {
+                console.error("Login initialization error:", err);
+                alert("Login Error: " + err.message);
             }
         };
 
