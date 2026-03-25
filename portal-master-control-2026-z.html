@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClearPath Admin CMS — Control Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0F6E56;
+            --primary-dark: #085041;
+            --secondary: #EF9F27;
+            --accent: #3395FF;
+            --bg: #f3f4f6;
+            --sidebar: #ffffff;
+            --text: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --white: #ffffff;
+            --danger: #ef4444;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+        /* --- AUTH VIEW --- */
+        #auth-view {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0F6E56 0%, #085041 100%);
+            position: fixed; inset: 0; z-index: 10000;
+        }
+        .login-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .login-card h2 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary); }
+        .input-group { margin-bottom: 1.2rem; text-align: left; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .input-group input, .input-group textarea, .input-group select { 
+            width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1.5px solid var(--border); 
+            font-family: inherit; transition: all 0.2s; font-size: 0.9rem;
+        }
+        .input-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(15, 110, 86, 0.1); }
+        .btn-login { 
+            width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; 
+            border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-login:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* --- MAIN LAYOUT --- */
+        #admin-layout { display: flex; min-height: 100vh; }
+        .sidebar { 
+            width: 260px; background: var(--sidebar); border-right: 1px solid var(--border); 
+            padding: 1.5rem; display: flex; flex-direction: column; position: fixed; height: 100vh;
+            z-index: 100;
+        }
+        .main-content { margin-left: 260px; flex: 1; padding: 2rem; max-width: 1200px; }
+
+        .sidebar-logo { 
+            font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; 
+            margin-bottom: 2.5rem; display: flex; align-items: center; gap: 10px; color: var(--primary);
+        }
+        .nav-links { list-style: none; }
+        .nav-links li { margin-bottom: 0.25rem; }
+        .nav-links a { 
+            display: flex; align-items: center; gap: 12px; padding: 0.75rem 1rem; 
+            border-radius: 8px; text-decoration: none; color: var(--text-muted); font-weight: 500; transition: all 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { background: #f0fdf4; color: var(--primary); }
+        .nav-links a.active { font-weight: 700; }
+
+        /* --- VIEWS --- */
+        .view { display: none; animation: fadeIn 0.3s ease-out; }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .header h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.75rem; }
+
+        /* --- CARDS --- */
+        .card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
+        .card-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; font-size: 0.85rem; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { background: transparent; border-color: var(--border); color: var(--text); }
+        .btn-danger { background: transparent; border-color: #fee2e2; color: var(--danger); }
+
+        /* --- TABLES --- */
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        td { padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .badge.success { background: #dcfce7; color: #166534; }
+        .badge.warning { background: #fef9c3; color: #854d0e; }
+        .badge.info { background: #e0f2fe; color: #0369a1; }
+
+        /* --- CMS --- */
+        .cms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+
+        /* --- MODAL --- */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; padding: 2rem; border-radius: 16px; width: 100%; max-width: 500px; }
+
+        /* --- TOAST --- */
+        #toast { position: fixed; bottom: 2rem; right: 2rem; background: #1f2937; color: white; padding: 0.75rem 1.25rem; border-radius: 8px; display: none; align-items: center; gap: 10px; z-index: 9999; }
+        #toast.active { display: flex; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- AUTH SECTION -->
+    <div id="auth-view">
+        <div class="login-card">
+            <h2>Admin Control Access</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Master Key</label>
+                    <input type="password" id="admin-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-login">Enter Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <div id="admin-layout" class="hidden">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div style="background: var(--primary); color: white; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-lock"></i>
+                </div>
+                ClearPath Admin
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active" data-view="dashboard"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                <li><a href="#" data-view="cms"><i class="fas fa-edit"></i> Website CMS</a></li>
+                <li><a href="#" data-view="plans"><i class="fas fa-tags"></i> Subscriptions</a></li>
+                <li><a href="#" data-view="clients"><i class="fas fa-users"></i> Client Manager</a></li>
+                <li><a href="#" data-view="payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                <li style="margin-top: auto;"><a href="#" id="logout-btn" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- DASHBOARD -->
+            <div id="view-dashboard" class="view active">
+                <div class="header"><h1>Platform Status</h1></div>
+                <div class="cms-grid" style="grid-template-columns: repeat(4, 1fr);">
+                    <div class="card"><div class="stat-label">Clients</div><div id="stat-clients" style="font-size:1.5rem; font-weight:800; color:var(--primary)">0</div></div>
+                    <div class="card"><div class="stat-label">Revenue</div><div id="stat-revenue" style="font-size:1.5rem; font-weight:800; color:var(--primary)">₹0</div></div>
+                    <div class="card"><div class="stat-label">Leads</div><div id="stat-leads" style="font-size:1.5rem; font-weight:800; color:var(--primary)">0</div></div>
+                    <div class="card"><div class="stat-label">Health</div><div style="font-size:1.5rem; font-weight:800; color:#10b981">Optimal</div></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><div class="card-title">Latest Logs</div></div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Action</th><th>User</th><th>Status</th><th>Time</th></tr></thead>
+                            <tbody id="logs-body"><tr><td>Login</td><td>Root Admin</td><td><span class="badge info">Success</span></td><td>Now</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CMS -->
+            <div id="view-cms" class="view">
+                <div class="header">
+                    <h1>Website CMS</h1>
+                    <button class="btn btn-primary" id="save-cms"><i class="fas fa-save"></i> Push Live</button>
+                </div>
+                <div class="cms-grid">
+                    <div class="card">
+                        <div class="card-title">Hero Section</div>
+                        <div class="input-group"><label>Headline</label><input type="text" id="hero-title"></div>
+                        <div class="input-group"><label>Subtext</label><textarea id="hero-desc" rows="4"></textarea></div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Live Statistics</div>
+                        <div class="input-group"><label>Leads Count</label><input type="number" id="sc-leads"></div>
+                        <div class="input-group"><label>Accuracy %</label><input type="number" id="sc-acc"></div>
+                        <div class="input-group"><label>Businesses</label><input type="number" id="sc-biz"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLANS -->
+            <div id="view-plans" class="view">
+                <div class="header">
+                    <h1>Subscription Plans</h1>
+                    <button class="btn btn-primary" id="add-plan"><i class="fas fa-plus"></i> New Plan</button>
+                </div>
+                <div id="plans-container" class="cms-grid"></div>
+            </div>
+
+            <!-- CLIENTS -->
+            <div id="view-clients" class="view">
+                <div class="header">
+                    <h1>Client Management</h1>
+                    <button class="btn btn-primary" id="add-client"><i class="fas fa-user-plus"></i> Manual Enroll</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>Client</th><th>Email</th><th>Plan</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="clients-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAYMENTS -->
+            <div id="view-payments" class="view">
+                <div class="header">
+                    <h1>Transaction History</h1>
+                    <button class="btn btn-primary" id="add-payment"><i class="fas fa-plus"></i> Record Payment</button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table>
+                            <thead><tr><th>ID</th><th>Client</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+                            <tbody id="payments-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modal-title">Edit Entry</h2>
+            <form id="modal-form">
+                <div id="modal-fields"></div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-outline" id="modal-close">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Action successful</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getFirestore, collection, getDocs, addDoc, updateDoc, doc, query, where, setDoc, onSnapshot, orderBy, serverTimestamp, deleteDoc, getDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDIYH5r5ftyFJn8M1ZpkAY24CEblH2rK-k",
+            authDomain: "leadgen-8297c.firebaseapp.com",
+            projectId: "leadgen-8297c",
+            storageBucket: "leadgen-8297c.firebasestorage.app",
+            messagingSenderId: "127112292824",
+            appId: "1:127112292824:web:be1831885335fe4d1a2aad"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // --- AUTH ---
+        document.getElementById('login-form').onsubmit = (e) => {
+            e.preventDefault();
+            if(document.getElementById('admin-password').value === 'admin123') {
+                document.getElementById('auth-view').classList.add('hidden');
+                document.getElementById('admin-layout').classList.remove('hidden');
+                init();
+            } else {
+                alert("Incorrect Key");
+            }
+        };
+
+        document.getElementById('logout-btn').onclick = () => location.reload();
+
+        // --- NAV ---
+        document.querySelectorAll('.nav-links a[data-view]').forEach(a => {
+            a.onclick = (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                document.getElementById('view-' + a.dataset.view).classList.add('active');
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                a.classList.add('active');
+            };
+        });
+
+        // --- INIT ---
+        function init() {
+            loadDashboard();
+            loadCMS();
+            loadPlans();
+            loadClients();
+            loadPayments();
+        }
+
+        async function loadDashboard() {
+            const u = await getDocs(query(collection(db, "users"), where("role","==","client")));
+            const l = await getDocs(collection(db, "leads"));
+            document.getElementById('stat-clients').innerText = u.size;
+            document.getElementById('stat-leads').innerText = (l.size + 4700000).toLocaleString();
+            let rev = 0; u.forEach(d => {
+                const s = d.data().subscription;
+                if(s === 'Growth') rev += 33499; else if(s === 'Starter') rev += 12499;
+            });
+            document.getElementById('stat-revenue').innerText = '₹' + rev.toLocaleString();
+        }
+
+        async function loadCMS() {
+            const s = await getDoc(doc(db, "site_config", "main"));
+            if(s.exists()) {
+                const d = s.data();
+                document.getElementById('hero-title').value = d.heroTitle || "";
+                document.getElementById('hero-desc').value = d.heroDesc || "";
+                document.getElementById('sc-leads').value = d.leadsCount || 4700000;
+                document.getElementById('sc-acc').value = d.accuracy || 94;
+                document.getElementById('sc-biz').value = d.businesses || 2400;
+            }
+        }
+
+        document.getElementById('save-cms').onclick = async () => {
+            await setDoc(doc(db, "site_config", "main"), {
+                heroTitle: document.getElementById('hero-title').value,
+                heroDesc: document.getElementById('hero-desc').value,
+                leadsCount: Number(document.getElementById('sc-leads').value),
+                accuracy: Number(document.getElementById('sc-acc').value),
+                businesses: Number(document.getElementById('sc-biz').value),
+                updatedAt: serverTimestamp()
+            });
+            showToast("Website Updated!");
+        };
+
+        async function loadPlans() {
+            const s = await getDocs(collection(db, "plans"));
+            const c = document.getElementById('plans-container');
+            c.innerHTML = '';
+            s.forEach(d => {
+                const p = d.data();
+                c.innerHTML += `
+                    <div class="card">
+                        <div class="card-header"><div class="card-title">${p.name}</div>
+                            <div style="display:flex;gap:5px">
+                                <button class="btn btn-outline" onclick="editPlan('${d.id}')"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger" onclick="deleteEntry('plans','${d.id}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div style="font-size:1.2rem;font-weight:800;color:var(--primary)">₹${p.price.toLocaleString()}</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted)">${p.sub}</div>
+                    </div>
+                `;
+            });
+        }
+
+        async function loadClients() {
+            const s = await getDocs(query(collection(db, "users"), where("role","==","client")));
+            const b = document.getElementById('clients-body'); b.innerHTML = '';
+            s.forEach(d => {
+                const u = d.data();
+                b.innerHTML += `
+                    <tr><td><strong>${u.name}</strong></td><td>${u.email}</td><td><span class="badge info">${u.subscription || 'Free'}</span></td><td><span class="badge success">Active</span></td>
+                    <td><button class="btn btn-outline" onclick="editClient('${d.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteEntry('users','${d.id}')">X</button></td></tr>
+                `;
+            });
+        }
+
+        async function loadPayments() {
+            const s = await getDocs(orderBy(collection(db, "transactions"), "date", "desc"));
+            const b = document.getElementById('payments-body'); b.innerHTML = '';
+            s.forEach(d => {
+                const t = d.data();
+                b.innerHTML += `
+                    <tr><td><code>#${d.id.slice(0,5)}</code></td><td>${t.clientName}</td><td>₹${t.amount.toLocaleString()}</td><td><span class="badge success">${t.status}</span></td><td>${t.date ? new Date(t.date.seconds*1000).toLocaleDateString() : 'N/A'}</td></tr>
+                `;
+            });
+        }
+
+        // --- UTILS ---
+        window.deleteEntry = async (c, id) => { if(confirm("Delete?")) { await deleteDoc(doc(db, c, id)); init(); } };
+
+        const modal = document.getElementById('modal-overlay');
+        const modalForm = document.getElementById('modal-form');
+        const modalFields = document.getElementById('modal-fields');
+        const modalTitle = document.getElementById('modal-title');
+
+        document.getElementById('modal-close').onclick = () => modal.classList.remove('active');
+
+        window.editPlan = async (id) => {
+            const s = await getDoc(doc(db, "plans", id)); const p = s.data();
+            modalTitle.innerText = "Edit Plan: " + p.name;
+            modalFields.innerHTML = `<input type="hidden" name="id" value="${id}"><input type="hidden" name="type" value="plan">
+                <div class="input-group"><label>Name</label><input type="text" name="name" value="${p.name}"></div>
+                <div class="input-group"><label>Price</label><input type="number" name="price" value="${p.price}"></div>
+                <div class="input-group"><label>Subtext</label><input type="text" name="sub" value="${p.sub}"></div>
+                <div class="input-group"><label>Features (comma)</label><textarea name="features">${p.features.join(',')}</textarea></div>
+                <div class="input-group"><label>Featured?</label><select name="featured"><option value="true" ${p.featured?'selected':''}>Yes</option><option value="false" ${!p.featured?'selected':''}>No</option></select></div>`;
+            modal.classList.add('active');
+        };
+
+        window.editClient = async (id) => {
+            const s = await getDoc(doc(db,"users",id)); const u = s.data();
+            modalTitle.innerText = "Edit Client";
+            modalFields.innerHTML = `<input type="hidden" name="id" value="${id}"><input type="hidden" name="type" value="client">
+                <div class="input-group"><label>Name</label><input type="text" name="name" value="${u.name}"></div>
+                <div class="input-group"><label>Email</label><input type="email" name="email" value="${u.email}"></div>
+                <div class="input-group"><label>Plan</label><select name="subscription"><option ${u.subscription==='Starter'?'selected':''}>Starter</option><option ${u.subscription==='Growth'?'selected':''}>Growth</option></select></div>`;
+            modal.classList.add('active');
+        };
+
+        document.getElementById('add-plan').onclick = () => {
+            modalTitle.innerText = "Add New Plan";
+            modalFields.innerHTML = `<input type="hidden" name="type" value="plan">
+                <div class="input-group"><label>Name</label><input type="text" name="name"></div>
+                <div class="input-group"><label>Price</label><input type="number" name="price"></div>
+                <div class="input-group"><label>Subtext</label><input type="text" name="sub"></div>
+                <div class="input-group"><label>Features</label><textarea name="features"></textarea></div>
+                <div class="input-group"><label>Featured?</label><select name="featured"><option value="false">No</option><option value="true">Yes</option></select></div>`;
+            modal.classList.add('active');
+        };
+
+        document.getElementById('add-client').onclick = () => {
+            modalTitle.innerText = "Manual Registration";
+            modalFields.innerHTML = `<input type="hidden" name="type" value="client_add">
+                <div class="input-group"><label>Name</label><input type="text" name="name"></div>
+                <div class="input-group"><label>Email</label><input type="email" name="email"></div>
+                <div class="input-group"><label>Plan</label><select name="subscription"><option>Starter</option><option>Growth</option></select></div>`;
+            modal.classList.add('active');
+        };
+
+        document.getElementById('add-payment').onclick = () => {
+            modalTitle.innerText = "New Payment Record";
+            modalFields.innerHTML = `<input type="hidden" name="type" value="payment">
+                <div class="input-group"><label>Client Name</label><input type="text" name="clientName"></div>
+                <div class="input-group"><label>Amount</label><input type="number" name="amount"></div>
+                <div class="input-group"><label>Status</label><select name="status"><option>Success</option><option>Pending</option></select></div>`;
+            modal.classList.add('active');
+        };
+
+        modalForm.onsubmit = async (e) => {
+            e.preventDefault(); const fd = new FormData(modalForm); const d = Object.fromEntries(fd.entries());
+            const type = d.type; const id = d.id; delete d.type; delete d.id;
+            if(type === 'plan') {
+                d.price = Number(d.price); d.features = d.features.split(','); d.featured = d.featured === 'true';
+                if(id) await updateDoc(doc(db,"plans",id), d); else await addDoc(collection(db,"plans"), d);
+            } else if(type === 'client') {
+                await updateDoc(doc(db,"users",id), d);
+            } else if(type === 'client_add') {
+                d.role = 'client'; d.createdAt = serverTimestamp(); await addDoc(collection(db,"users"), d);
+            } else if(type === 'payment') {
+                d.amount = Number(d.amount); d.date = serverTimestamp(); await addDoc(collection(db,"transactions"), d);
+            }
+            modal.classList.remove('active'); init(); showToast("Updated!");
+        };
+
+        function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('active'); setTimeout(()=>t.classList.remove('active'),3000); }
+    </script>
+</body>
+</html>
