@@ -445,7 +445,7 @@ footer a.logo{color:#fff}
   <div class="plans-grid">
     <div class="plan reveal reveal-delay-1">
       <div class="plan-name">Starter</div>
-      <div class="plan-price">$149<span>/mo</span></div>
+      <div class="plan-price">₹12,499<span>/mo</span></div>
       <div class="plan-sub">For freelancers and solo closers just getting started.</div>
       <div class="plan-div"></div>
       <ul>
@@ -455,12 +455,12 @@ footer a.logo{color:#fff}
         <li><span class="pcheck">✓</span> Basic lead scoring</li>
         <li><span class="pcheck">✓</span> Email support</li>
       </ul>
-      <button class="plan-btn">Get started</button>
+      <button class="plan-btn" onclick="initiatePayment('Starter', 12499)">Get started</button>
     </div>
     <div class="plan featured reveal reveal-delay-2">
       <div class="pop-badge">Most popular</div>
       <div class="plan-name">Growth</div>
-      <div class="plan-price">$399<span>/mo</span></div>
+      <div class="plan-price">₹33,499<span>/mo</span></div>
       <div class="plan-sub">For growing teams that need volume and speed.</div>
       <div class="plan-div"></div>
       <ul>
@@ -470,7 +470,7 @@ footer a.logo{color:#fff}
         <li><span class="pcheck">✓</span> Advanced lead scoring</li>
         <li><span class="pcheck">✓</span> Priority support</li>
       </ul>
-      <button class="plan-btn">Get started</button>
+      <button class="plan-btn" onclick="initiatePayment('Growth', 33499)">Get started</button>
     </div>
     <div class="plan reveal reveal-delay-3">
       <div class="plan-name">Enterprise</div>
@@ -485,6 +485,36 @@ footer a.logo{color:#fff}
         <li><span class="pcheck">✓</span> SLA guarantee</li>
       </ul>
       <button class="plan-btn">Talk to sales</button>
+    </div>
+  </div>
+</section>
+
+<!-- RAZORPAY INTEGRATION SECTION -->
+<section class="razorpay-section reveal" id="razorpay">
+  <div class="section-header" style="text-align:center; padding-top: 3rem;">
+    <div class="sec-label">Payments with Razorpay</div>
+    <h2 class="sec-title">Secure. Reliable. Global.</h2>
+    <p class="sec-sub">Accept payments via Credit/Debit Cards, NetBanking, UPI, and Wallets. Handled with top-tier security.</p>
+  </div>
+  <div style="max-width: 900px; margin: 2rem auto; background: var(--white); border: 1px solid rgba(0,0,0,.08); border-radius: 18px; padding: 2.5rem; display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap;">
+    <div style="flex: 1.2; min-width: 320px;">
+      <h3 style="font-family: 'Syne', sans-serif; margin-bottom: 1.2rem;">How we integrate:</h3>
+      <ol style="padding-left: 1.2rem; color: var(--ink-soft); line-height: 2;">
+        <li><strong>Load Checkout.js:</strong> Include <code>https://checkout.razorpay.com/v1/checkout.js</code> to enable the modal.</li>
+        <li><strong>Initialize Transaction:</strong> Use the <code>Razorpay()</code> function with your API Key and Order Details.</li>
+        <li><strong>Handle Callback:</strong> Razorpay returns a <code>payment_id</code> which is verified via webhooks to automate lead delivery.</li>
+      </ol>
+      <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+         <span style="font-size: 0.75rem; background: var(--smoke); padding: 4px 8px; border-radius: 4px; font-weight: 500;">✓ 3D Secure</span>
+         <span style="font-size: 0.75rem; background: var(--smoke); padding: 4px 8px; border-radius: 4px; font-weight: 500;">✓ PCI DSS Compliant</span>
+      </div>
+    </div>
+    <div style="flex: 1; min-width: 280px; text-align: center; background: #f0f7ff; border-radius: 18px; padding: 2.5rem;">
+      <div style="background: white; width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3395FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay Logo" style="width: 140px; margin-bottom: 1rem;">
+      <p style="font-size: 0.8rem; color: #4B6C92; font-weight: 500;">Official Payment Partner</p>
     </div>
   </div>
 </section>
@@ -534,8 +564,36 @@ footer a.logo{color:#fff}
   <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
 </footer>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+/* ── Razorpay Integration ── */
+function initiatePayment(planName, amount) {
+  const options = {
+    "key": "YOUR_RAZORPAY_KEY", // Enter your Key ID here
+    "amount": amount * 100, // Amount is in currency subunits (paise)
+    "currency": "INR",
+    "name": "ClearPath Leads",
+    "description": planName + " Subscription",
+    "image": "https://example.com/logo.png",
+    "handler": function (response){
+        alert("Payment Successful! ID: " + response.razorpay_payment_id);
+        // You would typically send this ID to your backend now
+    },
+    "prefill": {
+        "name": "User Name",
+        "email": "user@example.com",
+        "contact": "9999999999"
+    },
+    "theme": {
+        "color": "#0F6E56"
+    }
+  };
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
 /* ── Scroll reveal ── */
+
 const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
