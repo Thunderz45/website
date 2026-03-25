@@ -264,11 +264,30 @@
         <span id="toast-message">Action successful</span>
     </div>
 
+    <script>
+        function checkLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-password').value;
+            if(pass === 'admin123') {
+                document.getElementById('auth-view').style.display = 'none';
+                document.getElementById('admin-layout').style.display = 'flex';
+                document.getElementById('admin-layout').classList.remove('hidden');
+                // Signal the module script to initialize
+                window.dispatchEvent(new CustomEvent('auth-success'));
+            } else {
+                alert("Incorrect Master Key");
+            }
+        }
+    </script>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getFirestore, collection, getDocs, addDoc, updateDoc, doc, query, where, setDoc, onSnapshot, orderBy, serverTimestamp, deleteDoc, getDoc
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Attachment for the form outside the module
+        document.getElementById('login-form').onsubmit = checkLogin;
 
         const firebaseConfig = {
             apiKey: "AIzaSyDIYH5r5ftyFJn8M1ZpkAY24CEblH2rK-k",
@@ -282,23 +301,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- AUTH ---
-        document.getElementById('login-form').onsubmit = async (e) => {
-            e.preventDefault();
-            try {
-                if(document.getElementById('admin-password').value === 'admin123') {
-                    document.getElementById('auth-view').classList.add('hidden');
-                    document.getElementById('admin-layout').classList.remove('hidden');
-                    console.log("Master key accepted, initializing...");
-                    await init();
-                } else {
-                    alert("Incorrect Master Key");
-                }
-            } catch (err) {
-                console.error("Login initialization error:", err);
-                alert("Login Error: " + err.message);
-            }
-        };
+        window.addEventListener('auth-success', () => {
+            init().catch(err => console.error("Firebase Init Error:", err));
+        });
 
         document.getElementById('logout-btn').onclick = () => location.reload();
 
