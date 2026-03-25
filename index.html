@@ -1663,6 +1663,68 @@
     <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#contact">Contact</a></div>
   </footer>
 
+  <!-- FIREBASE & DYNAMIC CONTENT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDIYH5r5ftyFJn8M1ZpkAY24CEblH2rK-k",
+      authDomain: "leadgen-8297c.firebaseapp.com",
+      projectId: "leadgen-8297c",
+      storageBucket: "leadgen-8297c.firebasestorage.app",
+      messagingSenderId: "127112292824",
+      appId: "1:127112292824:web:be1831885335fe4d1a2aad"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadDynamicContent() {
+      // 1. Load Site Config (Hero & Stats)
+      const configSnap = await getDoc(doc(db, "site_config", "main"));
+      if (configSnap.exists()) {
+        const data = configSnap.data();
+        if (data.heroTitle) document.querySelector('.hero h1').innerHTML = data.heroTitle;
+        if (data.heroDesc) document.querySelector('.hero p').innerText = data.heroDesc;
+        
+        // Update Stats global variables for the counter animation
+        if (data.leadsCount) counters[0].target = data.leadsCount;
+        if (data.accuracy) counters[1].target = data.accuracy;
+        if (data.businesses) counters[2].target = data.businesses;
+      }
+
+      // 2. Load Pricing Plans
+      const plansSnap = await getDocs(collection(db, "plans"));
+      if (!plansSnap.empty) {
+        const container = document.querySelector('.plans-grid');
+        container.innerHTML = '';
+        plansSnap.forEach(snap => {
+          const p = snap.data();
+          container.innerHTML += `
+            <div class="plan ${p.featured ? 'featured' : ''} reveal">
+              ${p.featured ? '<div class="pop-badge">Most popular</div>' : ''}
+              <div class="plan-name">${p.name}</div>
+              <div class="plan-price">₹${p.price.toLocaleString()}<span>/mo</span></div>
+              <div class="plan-sub">${p.sub || ''}</div>
+              <div class="plan-div"></div>
+              <ul>
+                ${p.features.map(f => `<li><span class="pcheck">✓</span> ${f}</li>`).join('')}
+              </ul>
+              <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                ${p.name === 'Enterprise' ? 'Talk to sales' : 'Get started'}
+              </button>
+            </div>
+          `;
+        });
+        // Re-observe the new plans for reveal animation
+        document.querySelectorAll('.plan.reveal').forEach(el => observer.observe(el));
+      }
+    }
+
+    loadDynamicContent();
+  </script>
+
   <script>
 
     /* ── Scroll reveal ── */
