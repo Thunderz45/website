@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment — ClearPath Leads</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --teal: #0F6E56;
+      --teal-mid: #1D9E75;
+      --teal-light: #E1F5EE;
+      --teal-dark: #085041;
+      --amber: #EF9F27;
+      --amber-light: #FAEEDA;
+      --amber-dark: #7a4a00;
+      --coral: #D85A30;
+      --ink: #1a1a1a;
+      --ink-soft: #555;
+      --smoke: #f6f5f1;
+      --white: #fff;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid rgba(0, 0, 0, .07);
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+      z-index: 200
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: -.02em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      text-decoration: none
+    }
+
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      background: var(--teal);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .logo-box svg {
+      width: 18px;
+      height: 18px
+    }
+
+    /* ─── SECTIONS ─── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4.5rem
+    }
+
+    .sec-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: .7rem
+    }
+
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      letter-spacing: -.03em;
+      margin-bottom: .75rem
+    }
+
+    .sec-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.72;
+      font-weight: 300
+    }
+
+    /* ─── PLANS ─── */
+    .plans-section {
+      padding: 6rem 2rem;
+      background: var(--smoke)
+    }
+
+    .plans-grid {
+      max-width: 1000px;
+      margin: 3.5rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem
+    }
+
+    .plan {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 20px;
+      padding: 3rem;
+      position: relative;
+      transition: all .3s;
+      cursor: default;
+    }
+
+    .plan.featured {
+      background: var(--teal);
+      border-color: var(--teal);
+      transform: scale(1.03);
+    }
+
+    .plan.featured .plan-price,
+    .plan.featured .plan-name,
+    .plan.featured .plan-sub {
+      color: #fff !important
+    }
+
+    .plan.featured li {
+      color: rgba(255, 255, 255, .85) !important
+    }
+
+    .plan.featured .pcheck {
+      color: var(--amber) !important
+    }
+
+    .plan.featured .plan-div {
+      background: rgba(255, 255, 255, .2) !important
+    }
+
+    .plan.featured .plan-btn {
+      background: #fff;
+      color: var(--teal);
+      border-color: #fff
+    }
+
+    .pop-badge {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--amber);
+      color: #3a1f00;
+      font-size: .68rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px
+    }
+
+    .plan-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: .6rem
+    }
+
+    .plan-price {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      line-height: 1.1
+    }
+
+    .plan-price span {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink-soft)
+    }
+
+    .plan-sub {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin: .6rem 0 1.5rem
+    }
+
+    .plan-div {
+      height: 1px;
+      background: rgba(0, 0, 0, .08);
+      margin-bottom: 1.5rem
+    }
+
+    .plan ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 2rem
+    }
+
+    .plan li {
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink-soft)
+    }
+
+    .pcheck {
+      color: var(--teal);
+      font-weight: 700
+    }
+
+    .plan-btn {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid var(--teal);
+      background: var(--teal);
+      color: #fff;
+      transition: all .22s;
+    }
+
+    .plan-btn:hover {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ─── RAZORPAY ─── */
+    .razorpay-section {
+      padding: 6rem 2rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, .5);
+      padding: 3rem;
+      text-align: center;
+      font-size: .9rem
+    }
+
+    @media(max-width:860px) {
+      .plans-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1.5rem;
+      }
+      .plan.featured {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
+          <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></div>
+      ClearPath Leads
+    </a>
+  </nav>
+
+  <section class="plans-section">
+    <div class="section-header">
+      <div class="sec-label">Choose your plan</div>
+      <h2 class="sec-title">Complete your payment</h2>
+      <p class="sec-sub">Select the subscription that fits your growth goals. Payments are secured and verified by Razorpay.</p>
+    </div>
+    <div class="plans-grid">
+      <!-- Starter -->
+      <div class="plan">
+        <div class="plan-name">Starter Plan</div>
+        <div class="plan-price">₹12,499<span>/mo</span></div>
+        <div class="plan-sub">For freelancers and solo closers.</div>
+        <div class="plan-div"></div>
+        <ul>
+          <li><span class="pcheck">✓</span> 150 verified leads / month</li>
+          <li><span class="pcheck">✓</span> 2 industry verticals</li>
+          <li><span class="pcheck">✓</span> Real-time email delivery</li>
+          <li><span class="pcheck">✓</span> Basic lead scoring</li>
+        </ul>
+        <button class="plan-btn" onclick="initiatePayment('Starter Plan', 12499)">Select & Pay</button>
+      </div>
+
+      <!-- Growth (Featured) -->
+      <div class="plan featured">
+        <div class="pop-badge">Recommended</div>
+        <div class="plan-name">Growth Plan</div>
+        <div class="plan-price">₹33,499<span>/mo</span></div>
+        <div class="plan-sub">For scaling teams needing speed.</div>
+        <div class="plan-div"></div>
+        <ul>
+          <li><span class="pcheck">✓</span> 500 verified leads / month</li>
+          <li><span class="pcheck">✓</span> Unlimited industry verticals</li>
+          <li><span class="pcheck">✓</span> CRM + Slack integrations</li>
+          <li><span class="pcheck">✓</span> Advanced intent scoring</li>
+        </ul>
+        <button class="plan-btn" onclick="initiatePayment('Growth Plan', 33499)">Select & Pay</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="razorpay-section">
+    <div style="max-width: 900px; margin: 0 auto; background: var(--white); border: 1px solid rgba(0,0,0,.08); border-radius: 20px; padding: 3rem; display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; box-shadow: 0 10px 40px rgba(0,0,0,0.02);">
+      <div style="flex: 1.2; min-width: 320px;">
+        <h3 style="font-family: 'Syne', sans-serif; margin-bottom: 1.5rem; font-size: 1.4rem;">Payment Security</h3>
+        <p style="color: var(--ink-soft); line-height: 1.7; margin-bottom: 1.5rem;">We use Razorpay, India's leading payment gateway, to ensure your transactions are safe and verified. Your sensitive details are handled with top-tier encryption.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ 256-bit SSL Encryption</span>
+          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ 3D Secure Verification</span>
+          <span style="font-size: 0.8rem; background: var(--teal-light); color: var(--teal-dark); padding: 8px 16px; border-radius: 8px; font-weight: 600;">✓ PCI-DSS Level 1 Compliant</span>
+        </div>
+      </div>
+      <div style="flex: 1; min-width: 250px; text-align: center; background: #f0f7ff; border-radius: 20px; padding: 3rem;">
+        <div style="background: white; width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#3395FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg" alt="Razorpay Logo" style="width: 150px; margin-bottom: 1.2rem;">
+        <p style="font-size: 0.85rem; color: #4B6C92; font-weight: 600;">Official Payment Partner</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="margin-bottom: 1.5rem;">
+      <a href="index.html" class="logo" style="justify-content: center; color: #fff;">
+        <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
+            <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg></div>
+        ClearPath Leads
+      </a>
+    </div>
+    <p>© 2026 ClearPath Leads. All rights reserved.</p>
+  </footer>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    function initiatePayment(planName, amount) {
+      const options = {
+        "key": "rzp_test_ZUZVjnILOw9R3N", // Enter your Key ID here
+        "amount": amount * 100, // Amount is in currency subunits (paise)
+        "currency": "INR",
+        "name": "ClearPath Leads",
+        "description": planName + " Subscription",
+        "image": "https://example.com/logo.png",
+        "handler": function (response) {
+          alert("Payment Successful! ID: " + response.razorpay_payment_id);
+          // You would typically send this ID to your backend now to unlock the account
+        },
+        "prefill": {
+          "name": "Your Client",
+          "email": "client@example.com",
+          "contact": "9999999999"
+        },
+        "theme": {
+          "color": "#0F6E56"
+        }
+      };
+      const rzp = new Razorpay(options);
+      rzp.open();
+    }
+  </script>
+</body>
+
+</html>
