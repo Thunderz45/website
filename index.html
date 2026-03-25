@@ -1,678 +1,1717 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ClearPath Leads — Your Pipeline, Automated</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --teal:#0F6E56;--teal-mid:#1D9E75;--teal-light:#E1F5EE;--teal-dark:#085041;
-  --amber:#EF9F27;--amber-light:#FAEEDA;--amber-dark:#7a4a00;
-  --coral:#D85A30;--ink:#1a1a1a;--ink-soft:#555;--smoke:#f6f5f1;--white:#fff;
-}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
-
-/* ─── NAV ─── */
-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.1rem 3rem;border-bottom:1px solid rgba(0,0,0,.07);
-  position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);z-index:200
-}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none}
-.logo-box{width:28px;height:28px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.logo-box svg{width:15px;height:15px}
-nav ul{display:flex;gap:2rem;list-style:none}
-nav ul a{font-size:.875rem;color:var(--ink-soft);text-decoration:none;transition:color .2s}
-nav ul a:hover{color:var(--teal)}
-.btn-nav{background:var(--teal);color:#fff;border:none;padding:.55rem 1.3rem;border-radius:7px;font-size:.85rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:background .2s}
-.btn-nav:hover{background:var(--teal-dark)}
-
-/* ─── HERO ─── */
-.hero{
-  min-height:92vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden
-}
-.hero-orb{
-  position:absolute;border-radius:50%;pointer-events:none;
-}
-.orb1{width:600px;height:600px;background:var(--teal-light);opacity:.5;top:-180px;right:-180px;animation:orb1 12s ease-in-out infinite}
-.orb2{width:350px;height:350px;background:var(--amber-light);opacity:.45;bottom:-100px;left:-80px;animation:orb2 15s ease-in-out infinite}
-@keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-40px,30px) scale(1.05)}}
-@keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-25px) scale(1.08)}}
-.hero-inner{position:relative;z-index:1;max-width:780px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--teal-light);color:var(--teal-dark);padding:6px 16px;border-radius:100px;font-size:.75rem;font-weight:500;margin-bottom:1.5rem;letter-spacing:.04em;opacity:0;animation:fadeUp .7s .2s ease forwards}
-.live-dot{width:7px;height:7px;background:var(--teal-mid);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,5vw,4.2rem);line-height:1.06;letter-spacing:-.04em;margin-bottom:1.1rem;opacity:0;animation:fadeUp .7s .35s ease forwards}
-.hero h1 em{font-style:normal;color:var(--teal)}
-.hero p{font-size:1.08rem;color:var(--ink-soft);line-height:1.75;max-width:560px;margin:0 auto 2.25rem;font-weight:300;opacity:0;animation:fadeUp .7s .5s ease forwards}
-.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .7s .65s ease forwards}
-.btn-primary{background:var(--teal);color:#fff;border:none;padding:.9rem 2rem;border-radius:9px;font-size:1rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .22s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{background:var(--teal-dark);transform:translateY(-2px)}
-.btn-primary svg{width:16px;height:16px}
-.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid rgba(0,0,0,.14);padding:.9rem 1.8rem;border-radius:9px;font-size:1rem;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .22s}
-.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
-.scroll-hint{margin-top:3rem;opacity:0;animation:fadeUp .7s .9s ease forwards}
-.scroll-hint span{font-size:.75rem;color:var(--ink-soft);letter-spacing:.05em;display:block;margin-bottom:8px}
-.scroll-arrow{width:24px;height:24px;margin:0 auto;animation:bounce 2s ease-in-out infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-/* ─── PIPELINE SECTION ─── */
-.pipeline-section{padding:6rem 2rem;background:var(--smoke)}
-.section-header{text-align:center;margin-bottom:4.5rem}
-.sec-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.7rem}
-.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.9rem,3vw,2.8rem);letter-spacing:-.03em;margin-bottom:.75rem}
-.sec-sub{font-size:1rem;color:var(--ink-soft);max-width:540px;margin:0 auto;line-height:1.72;font-weight:300}
-
-/* ─── ANIMATED PIPELINE DIAGRAM ─── */
-.pipeline-wrap{max-width:1100px;margin:0 auto;position:relative}
-
-/* SVG track */
-.pipeline-svg-track{width:100%;overflow:visible}
-
-/* Step cards below track */
-.pipe-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:1.25rem;margin-top:2rem}
-.pipe-card{
-  background:var(--white);border:1px solid rgba(0,0,0,.08);border-radius:16px;
-  padding:1.4rem 1.1rem;text-align:center;
-  transition:all .35s;cursor:default;position:relative;overflow:hidden;
-}
-.pipe-card::before{
-  content:'';position:absolute;inset:0;border-radius:16px;
-  background:var(--teal);opacity:0;transition:opacity .35s;z-index:0
-}
-.pipe-card.active::before{opacity:1}
-.pipe-card-inner{position:relative;z-index:1}
-.pipe-card.active .pipe-num,
-.pipe-card.active .pipe-name,
-.pipe-card.active .pipe-desc{color:#fff}
-.pipe-card.active .pipe-icon-wrap{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3)}
-.pipe-card.active .pipe-icon-wrap svg{stroke:#fff}
-.pipe-num{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;transition:color .35s}
-.pipe-icon-wrap{
-  width:52px;height:52px;border-radius:14px;background:var(--teal-light);
-  border:1px solid rgba(15,110,86,.2);display:flex;align-items:center;justify-content:center;
-  margin:0 auto .85rem;transition:all .35s
-}
-.pipe-icon-wrap svg{width:24px;height:24px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;transition:stroke .35s}
-.pipe-name{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.35rem;transition:color .35s}
-.pipe-desc{font-size:.78rem;color:var(--ink-soft);line-height:1.6;font-weight:300;transition:color .35s}
-
-/* ─── ANIMATED DATA PACKETS ─── */
-.packet{
-  width:12px;height:12px;border-radius:50%;
-  position:absolute;top:50%;transform:translateY(-50%);
-  pointer-events:none;z-index:10;
-}
-#svg-track{overflow:visible}
-
-/* ─── LEAD TICKER ─── */
-.lead-ticker{
-  max-width:1100px;margin:3rem auto 0;
-  background:var(--white);border:1px solid rgba(0,0,0,.08);
-  border-radius:16px;padding:1.5rem 1.75rem;
-  display:flex;align-items:center;gap:1.5rem;overflow:hidden
-}
-.ticker-label{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);white-space:nowrap;flex-shrink:0}
-.ticker-divider{width:1px;height:32px;background:rgba(0,0,0,.1);flex-shrink:0}
-.ticker-track{flex:1;overflow:hidden;height:36px;position:relative}
-.ticker-inner{position:absolute;top:0;left:0;display:flex;flex-direction:column;gap:10px;animation:tickerScroll 10s linear infinite}
-.ticker-row{display:flex;align-items:center;gap:10px;height:36px}
-.t-av{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;flex-shrink:0}
-.t-name{font-size:.85rem;font-weight:500}
-.t-co{font-size:.75rem;color:var(--ink-soft)}
-.t-score{margin-left:auto;font-size:.72rem;font-weight:600;padding:2px 9px;border-radius:100px}
-.t-high{background:var(--teal-light);color:var(--teal-dark)}
-.t-med{background:var(--amber-light);color:var(--amber-dark)}
-@keyframes tickerScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
-
-/* ─── STATS BAND ─── */
-.stats-band{display:grid;grid-template-columns:repeat(4,1fr);background:var(--teal)}
-.stat{text-align:center;padding:3rem 1rem;border-right:1px solid rgba(255,255,255,.18)}
-.stat:last-child{border-right:none}
-.stat-num{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:#fff;line-height:1;counter-reset:count var(--target)}
-.stat-desc{font-size:.9rem;color:rgba(255,255,255,.72);margin-top:6px}
-
-/* ─── HOW SECTION BELOW ─── */
-.how-section{padding:6rem 2rem}
-.how-grid{max-width:1100px;margin:3.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.how-card{padding:2rem;border-radius:18px;border:1px solid rgba(0,0,0,.08);background:var(--white);position:relative;overflow:hidden;transition:all .3s}
-.how-card:hover{transform:translateY(-5px);border-color:rgba(15,110,86,.25)}
-.how-num{font-family:'Syne',sans-serif;font-size:4rem;font-weight:800;color:var(--teal-light);line-height:1;margin-bottom:.6rem}
-.how-icon{width:48px;height:48px;border-radius:12px;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
-.how-icon svg{width:22px;height:22px;stroke:var(--teal);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.how-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
-.how-desc{font-size:.875rem;color:var(--ink-soft);line-height:1.7;font-weight:300}
-
-/* ─── PLANS ─── */
-.plans-section{padding:6rem 2rem;background:var(--smoke)}
-.plans-grid{max-width:1100px;margin:3.5rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.plan{background:var(--white);border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:2rem;position:relative;transition:all .3s;cursor:pointer}
-.plan:hover{transform:translateY(-5px)}
-.plan.featured{background:var(--teal);border-color:var(--teal)}
-.plan.featured .plan-price,.plan.featured .plan-name,.plan.featured .plan-sub{color:#fff !important}
-.plan.featured li{color:rgba(255,255,255,.85) !important}
-.plan.featured .pcheck{color:var(--amber) !important}
-.plan.featured .plan-div{background:rgba(255,255,255,.2) !important}
-.plan.featured .plan-btn{background:#fff;color:var(--teal);border-color:#fff}
-.pop-badge{position:absolute;top:16px;right:16px;background:var(--amber);color:#3a1f00;font-size:.68rem;font-weight:600;padding:4px 11px;border-radius:100px}
-.plan-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.4rem}
-.plan-price{font-family:'Syne',sans-serif;font-weight:800;font-size:2.3rem;line-height:1.1}
-.plan-price span{font-size:.95rem;font-weight:400;color:var(--ink-soft)}
-.plan-sub{font-size:.8rem;color:var(--ink-soft);margin:.45rem 0 1.1rem}
-.plan-div{height:1px;background:rgba(0,0,0,.08);margin-bottom:1.1rem}
-.plan ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:1.6rem}
-.plan li{font-size:.85rem;display:flex;align-items:center;gap:8px;color:var(--ink-soft)}
-.pcheck{color:var(--teal);font-weight:700}
-.plan-btn{width:100%;padding:.75rem;border-radius:9px;font-size:.9rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border:1px solid rgba(0,0,0,.12);background:transparent;transition:all .22s}
-.plan-btn:hover{background:var(--smoke)}
-
-/* ─── TESTIMONIALS ─── */
-.testi-section{padding:6rem 2rem}
-.testi-grid{max-width:1100px;margin:3rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.tcard{background:var(--white);border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:1.75rem}
-.stars{color:var(--amber);margin-bottom:.9rem;font-size:.9rem}
-.ttext{font-size:.875rem;line-height:1.72;color:var(--ink-soft);font-style:italic;font-weight:300;margin-bottom:1.2rem}
-.tauthor{display:flex;align-items:center;gap:10px}
-.tav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0}
-.tan{font-size:.85rem;font-weight:500}
-.tat{font-size:.74rem;color:var(--ink-soft)}
-
-/* ─── FINAL CTA ─── */
-.cta-final{padding:7rem 2rem;text-align:center;background:linear-gradient(180deg,var(--white) 0%,var(--teal-light) 100%)}
-.cta-final h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-.035em;margin-bottom:.9rem}
-.cta-final p{font-size:1rem;color:var(--ink-soft);margin-bottom:2.2rem;font-weight:300}
-.cta-final-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-
-/* ─── FOOTER ─── */
-footer{background:var(--ink);color:rgba(255,255,255,.5);padding:2.25rem 3rem;display:flex;justify-content:space-between;align-items:center;font-size:.8rem}
-footer a.logo{color:#fff}
-.footer-links{display:flex;gap:1.5rem}
-.footer-links a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:rgba(255,255,255,.8)}
-
-/* ─── SCROLL REVEAL ─── */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-delay-1{transition-delay:.1s}
-.reveal-delay-2{transition-delay:.2s}
-.reveal-delay-3{transition-delay:.3s}
-.reveal-delay-4{transition-delay:.4s}
-.reveal-delay-5{transition-delay:.5s}
-
-@media(max-width:860px){
-  nav ul{display:none}nav{padding:1rem 1.5rem}
-  .hero{padding:4rem 1.5rem 2.5rem}
-  .pipeline-section,.how-section,.plans-section,.testi-section,.cta-final{padding:4rem 1.5rem}
-  .pipe-steps{grid-template-columns:1fr 1fr;gap:.85rem}
-  .stats-band{grid-template-columns:repeat(2,1fr)}
-  .stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.15);padding:2rem 1rem}
-  .stat:nth-child(3),.stat:nth-child(4){border-bottom:none}
-  .how-grid,.plans-grid,.testi-grid{grid-template-columns:1fr}
-  footer{flex-direction:column;gap:1rem;text-align:center;padding:1.75rem}
-}
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="logo">
-    <div class="logo-box"><svg viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    ClearPath Leads
-  </a>
-  <ul>
-    <li><a href="#pipeline">Pipeline</a></li>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#plans">Pricing</a></li>
-    <li><a href="#stories">Stories</a></li>
-  </ul>
-  <button class="btn-nav">Start free trial</button>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-orb orb1"></div>
-  <div class="hero-orb orb2"></div>
-  <div class="hero-inner">
-    <div class="eyebrow"><span class="live-dot"></span> Verified leads — delivered daily</div>
-    <h1>Your lead pipeline,<br><em>automated end-to-end</em></h1>
-    <p>ClearPath finds, verifies, and delivers high-quality leads directly to your team — so you spend time closing deals, not chasing contacts.</p>
-    <div class="hero-cta">
-      <button class="btn-primary">Start for free <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-      <button class="btn-ghost">Watch demo</button>
-    </div>
-    <div class="scroll-hint">
-      <span>See how it works</span>
-      <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="var(--ink-soft)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-    </div>
-  </div>
-</section>
-
-<!-- ─── ANIMATED PIPELINE ─── -->
-<section class="pipeline-section" id="pipeline">
-  <div class="section-header reveal">
-    <div class="sec-label">The pipeline</div>
-    <h2 class="sec-title">Five stages. Fully automated.</h2>
-    <p class="sec-sub">Watch how a lead travels from raw data to a closed deal — in real time, every time.</p>
-  </div>
-
-  <div class="pipeline-wrap">
-    <!-- SVG animated track -->
-    <svg id="svg-track" class="pipeline-svg-track" viewBox="0 0 1060 90" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <!-- Track gradient -->
-        <linearGradient id="trackGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#0F6E56"/>
-          <stop offset="80%" stop-color="#1D9E75"/>
-          <stop offset="100%" stop-color="#EF9F27"/>
-        </linearGradient>
-        <!-- Glow filter -->
-        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-        <!-- Node glow -->
-        <filter id="nodeGlow">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-
-      <!-- Track line (dashed background) -->
-      <line x1="80" y1="45" x2="980" y2="45" stroke="#D3D1C7" stroke-width="2" stroke-dasharray="6 4"/>
-
-      <!-- Active track (animated width) -->
-      <line id="active-track" x1="80" y1="45" x2="80" y2="45" stroke="url(#trackGrad)" stroke-width="3" stroke-linecap="round"/>
-
-      <!-- Step nodes -->
-      <g id="node-0"><circle cx="80"  cy="45" r="22" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2"/><circle cx="80"  cy="45" r="10" fill="#0F6E56"/></g>
-      <g id="node-1"><circle cx="290" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2"/><circle cx="290" cy="45" r="10" fill="#B4B2A9"/></g>
-      <g id="node-2"><circle cx="500" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2"/><circle cx="500" cy="45" r="10" fill="#B4B2A9"/></g>
-      <g id="node-3"><circle cx="710" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2"/><circle cx="710" cy="45" r="10" fill="#B4B2A9"/></g>
-      <g id="node-4"><circle cx="980" cy="45" r="28" fill="#FAEEDA" stroke="#EF9F27" stroke-width="2.5"/><circle cx="980" cy="45" r="13" fill="#EF9F27"/></g>
-
-      <!-- Labels above -->
-      <text x="80"  y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888" font-weight="500">STEP 1</text>
-      <text x="290" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888" font-weight="500">STEP 2</text>
-      <text x="500" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888" font-weight="500">STEP 3</text>
-      <text x="710" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888" font-weight="500">STEP 4</text>
-      <text x="980" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888" font-weight="500">STEP 5</text>
-
-      <!-- Labels below -->
-      <text x="80"  y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#1a1a1a" font-weight="700">Define</text>
-      <text x="290" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888" font-weight="700" id="lbl-1">AI Source</text>
-      <text x="500" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888" font-weight="700" id="lbl-2">Verify</text>
-      <text x="710" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888" font-weight="700" id="lbl-3">Deliver</text>
-      <text x="980" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#854F0B" font-weight="700" id="lbl-4">Close Deal</text>
-
-      <!-- Animated packets (3 dots travel the track) -->
-      <circle id="pkt0" cx="80" cy="45" r="7" fill="#0F6E56" filter="url(#glow)" opacity="0"/>
-      <circle id="pkt1" cx="80" cy="45" r="7" fill="#1D9E75" filter="url(#glow)" opacity="0"/>
-      <circle id="pkt2" cx="80" cy="45" r="5" fill="#EF9F27" filter="url(#glow)" opacity="0"/>
-    </svg>
-
-    <!-- Step cards -->
-    <div class="pipe-steps">
-      <div class="pipe-card active reveal reveal-delay-1" id="card-0">
-        <div class="pipe-card-inner">
-          <div class="pipe-num">Step 01</div>
-          <div class="pipe-icon-wrap">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7 12h10M7 8h6M7 16h8"/></svg>
-          </div>
-          <div class="pipe-name">Define target</div>
-          <div class="pipe-desc">Set your ideal customer profile — industry, size, location, and signals</div>
-        </div>
-      </div>
-      <div class="pipe-card reveal reveal-delay-2" id="card-1">
-        <div class="pipe-card-inner">
-          <div class="pipe-num">Step 02</div>
-          <div class="pipe-icon-wrap">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg>
-          </div>
-          <div class="pipe-name">AI sourcing</div>
-          <div class="pipe-desc">Our engine scans 50M+ data points across web, social, and intent signals</div>
-        </div>
-      </div>
-      <div class="pipe-card reveal reveal-delay-3" id="card-2">
-        <div class="pipe-card-inner">
-          <div class="pipe-num">Step 03</div>
-          <div class="pipe-icon-wrap">
-            <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
-          </div>
-          <div class="pipe-name">Verify &amp; score</div>
-          <div class="pipe-desc">Each lead is validated, deduplicated, and scored for quality and fit</div>
-        </div>
-      </div>
-      <div class="pipe-card reveal reveal-delay-4" id="card-3">
-        <div class="pipe-card-inner">
-          <div class="pipe-num">Step 04</div>
-          <div class="pipe-icon-wrap">
-            <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-          </div>
-          <div class="pipe-name">Deliver to CRM</div>
-          <div class="pipe-desc">Verified leads push straight into Salesforce, HubSpot, or your inbox</div>
-        </div>
-      </div>
-      <div class="pipe-card reveal reveal-delay-5" id="card-4">
-        <div class="pipe-card-inner">
-          <div class="pipe-num">Step 05</div>
-          <div class="pipe-icon-wrap" style="background:var(--amber-light);border-color:rgba(239,159,39,.3)">
-            <svg viewBox="0 0 24 24" style="stroke:var(--amber)"><path d="M12 2l3.1 6.2L22 9.3l-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8-5-4.9 6.9-1.1L12 2z"/></svg>
-          </div>
-          <div class="pipe-name">Close the deal</div>
-          <div class="pipe-desc">You focus on conversations and conversions — we handle the rest</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Live lead ticker -->
-    <div class="lead-ticker reveal">
-      <span class="ticker-label">Live feed</span>
-      <div class="ticker-divider"></div>
-      <div class="ticker-track">
-        <div class="ticker-inner" id="ticker">
-          <div class="ticker-row"><div class="t-av" style="background:#1D9E75">DM</div><div><div class="t-name">David Müller</div><div class="t-co">Müller & Partners · Finance</div></div><span class="t-score t-high" style="margin-left:auto">Score 95</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#7F77DD">PK</div><div><div class="t-name">Priya Krishnan</div><div class="t-co">BrightScale SaaS · Tech</div></div><span class="t-score t-high" style="margin-left:auto">Score 91</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#EF9F27">RL</div><div><div class="t-name">Rafael Lima</div><div class="t-co">Atlas Realty · Real estate</div></div><span class="t-score t-med" style="margin-left:auto">Score 78</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#D85A30">SR</div><div><div class="t-name">Sofia Rossi</div><div class="t-co">NovaMed · Healthcare</div></div><span class="t-score t-high" style="margin-left:auto">Score 88</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#185FA5">JK</div><div><div class="t-name">James Kim</div><div class="t-co">EdgeCloud · Technology</div></div><span class="t-score t-high" style="margin-left:auto">Score 93</span></div>
-          <!-- duplicate for seamless loop -->
-          <div class="ticker-row"><div class="t-av" style="background:#1D9E75">DM</div><div><div class="t-name">David Müller</div><div class="t-co">Müller & Partners · Finance</div></div><span class="t-score t-high" style="margin-left:auto">Score 95</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#7F77DD">PK</div><div><div class="t-name">Priya Krishnan</div><div class="t-co">BrightScale SaaS · Tech</div></div><span class="t-score t-high" style="margin-left:auto">Score 91</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#EF9F27">RL</div><div><div class="t-name">Rafael Lima</div><div class="t-co">Atlas Realty · Real estate</div></div><span class="t-score t-med" style="margin-left:auto">Score 78</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#D85A30">SR</div><div><div class="t-name">Sofia Rossi</div><div class="t-co">NovaMed · Healthcare</div></div><span class="t-score t-high" style="margin-left:auto">Score 88</span></div>
-          <div class="ticker-row"><div class="t-av" style="background:#185FA5">JK</div><div><div class="t-name">James Kim</div><div class="t-co">EdgeCloud · Technology</div></div><span class="t-score t-high" style="margin-left:auto">Score 93</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-band">
-  <div class="stat reveal"><div class="stat-num" id="sn0">0</div><div class="stat-desc">Leads delivered</div></div>
-  <div class="stat reveal reveal-delay-1"><div class="stat-num" id="sn1">0</div><div class="stat-desc">Verified accuracy</div></div>
-  <div class="stat reveal reveal-delay-2"><div class="stat-num" id="sn2">0</div><div class="stat-desc">Active businesses</div></div>
-  <div class="stat reveal reveal-delay-3"><div class="stat-num" id="sn3">0</div><div class="stat-desc">Average ROI</div></div>
-</div>
-
-<!-- HOW IT WORKS -->
-<section class="how-section" id="how">
-  <div class="section-header reveal" style="text-align:center">
-    <div class="sec-label">Why it works</div>
-    <h2 class="sec-title">Built differently from the ground up</h2>
-    <p class="sec-sub">Most lead tools give you a list. ClearPath gives you a living pipeline that works while you sleep.</p>
-  </div>
-  <div class="how-grid" style="max-width:1100px;margin:3.5rem auto 0">
-    <div class="how-card reveal reveal-delay-1">
-      <div class="how-num">01</div>
-      <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-      <div class="how-title">Real-time delivery</div>
-      <div class="how-desc">Leads arrive within minutes of verification. No weekly batches, no stale contacts — every lead is fresh when it lands in your inbox.</div>
-    </div>
-    <div class="how-card reveal reveal-delay-2">
-      <div class="how-num">02</div>
-      <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.2L22 9.3l-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8-5-4.9 6.9-1.1z"/></svg></div>
-      <div class="how-title">AI-powered scoring</div>
-      <div class="how-desc">Every lead gets a quality score based on buying intent signals, ICP fit, and engagement likelihood — so you know exactly who to call first.</div>
-    </div>
-    <div class="how-card reveal reveal-delay-3">
-      <div class="how-num">03</div>
-      <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v5H4zM11 4h5v5h-5zM4 11h5v5H4zM11 11h5v5h-5z"/></svg></div>
-      <div class="how-title">Seamless integration</div>
-      <div class="how-desc">Connects to Salesforce, HubSpot, Pipedrive, and 20+ tools. Leads appear in your existing workflow — zero extra steps or manual imports.</div>
-    </div>
-  </div>
-</section>
-
-<!-- PLANS -->
-<section class="plans-section" id="plans">
-  <div class="section-header reveal" style="text-align:center">
-    <div class="sec-label">Pricing</div>
-    <h2 class="sec-title">Plans that grow with you</h2>
-    <p class="sec-sub">No contracts. No lock-ins. Scale up or cancel anytime.</p>
-  </div>
-  <div class="plans-grid">
-    <div class="plan reveal reveal-delay-1">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">$149<span>/mo</span></div>
-      <div class="plan-sub">For freelancers and solo closers just getting started.</div>
-      <div class="plan-div"></div>
-      <ul>
-        <li><span class="pcheck">✓</span> 150 verified leads / month</li>
-        <li><span class="pcheck">✓</span> 2 industry verticals</li>
-        <li><span class="pcheck">✓</span> Email delivery</li>
-        <li><span class="pcheck">✓</span> Basic lead scoring</li>
-        <li><span class="pcheck">✓</span> Email support</li>
-      </ul>
-      <button class="plan-btn">Get started</button>
-    </div>
-    <div class="plan featured reveal reveal-delay-2">
-      <div class="pop-badge">Most popular</div>
-      <div class="plan-name">Growth</div>
-      <div class="plan-price">$399<span>/mo</span></div>
-      <div class="plan-sub">For growing teams that need volume and speed.</div>
-      <div class="plan-div"></div>
-      <ul>
-        <li><span class="pcheck">✓</span> 500 verified leads / month</li>
-        <li><span class="pcheck">✓</span> Unlimited verticals</li>
-        <li><span class="pcheck">✓</span> CRM + Slack integration</li>
-        <li><span class="pcheck">✓</span> Advanced lead scoring</li>
-        <li><span class="pcheck">✓</span> Priority support</li>
-      </ul>
-      <button class="plan-btn">Get started</button>
-    </div>
-    <div class="plan reveal reveal-delay-3">
-      <div class="plan-name">Enterprise</div>
-      <div class="plan-price">Custom</div>
-      <div class="plan-sub">For large orgs with unique requirements and scale.</div>
-      <div class="plan-div"></div>
-      <ul>
-        <li><span class="pcheck">✓</span> Unlimited leads</li>
-        <li><span class="pcheck">✓</span> Dedicated account manager</li>
-        <li><span class="pcheck">✓</span> Custom API access</li>
-        <li><span class="pcheck">✓</span> White-label options</li>
-        <li><span class="pcheck">✓</span> SLA guarantee</li>
-      </ul>
-      <button class="plan-btn">Talk to sales</button>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="testi-section" id="stories">
-  <div class="section-header reveal" style="text-align:center">
-    <div class="sec-label">Customer stories</div>
-    <h2 class="sec-title">Real results, real businesses</h2>
-  </div>
-  <div class="testi-grid">
-    <div class="tcard reveal reveal-delay-1">
-      <div class="stars">★★★★★</div>
-      <p class="ttext">"We went from manually prospecting 4 hours a day to a full inbox of qualified leads every morning. Our close rate jumped 40% in two months."</p>
-      <div class="tauthor"><div class="tav" style="background:#1D9E75">JR</div><div><div class="tan">Jamie Reyes</div><div class="tat">Sales Director, Helix Software</div></div></div>
-    </div>
-    <div class="tcard reveal reveal-delay-2">
-      <div class="stars">★★★★★</div>
-      <p class="ttext">"The lead quality is genuinely impressive. We've tried five other services — ClearPath is the only one where nearly every contact actually picks up."</p>
-      <div class="tauthor"><div class="tav" style="background:#D85A30">NW</div><div><div class="tan">Nadia Weber</div><div class="tat">Founder, Weber Consulting</div></div></div>
-    </div>
-    <div class="tcard reveal reveal-delay-3">
-      <div class="stars">★★★★★</div>
-      <p class="ttext">"Setup took under 10 minutes and leads arrived within the hour. I've never seen a tool this fast to value. Our pipeline is unrecognisable."</p>
-      <div class="tauthor"><div class="tav" style="background:#7F77DD">TN</div><div><div class="tan">Thomas Nguyen</div><div class="tat">Head of Growth, Arcadia Realty</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="cta-final">
-  <h2 class="reveal">Ready to fill your pipeline?</h2>
-  <p class="reveal reveal-delay-1">Start your free trial today — no credit card required. First leads in under 10 minutes.</p>
-  <div class="cta-final-btns reveal reveal-delay-2">
-    <button class="btn-primary">Start for free <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
-    <button class="btn-ghost">Book a demo</button>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <a href="#" class="logo">
-    <div class="logo-box"><svg viewBox="0 0 15 15" fill="none"><path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    ClearPath Leads
-  </a>
-  <span>© 2026 ClearPath Leads. All rights reserved.</span>
-  <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
-</footer>
-
-<script>
-/* ── Scroll reveal ── */
-const revealEls = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-revealEls.forEach(el => observer.observe(el));
-
-/* ── Pipeline step cycler ── */
-const cards = document.querySelectorAll('.pipe-card');
-const nodeColors = ['#0F6E56','#0F6E56','#0F6E56','#0F6E56','#EF9F27'];
-const nodeInner = [10,10,10,10,13];
-const nodeXs = [80, 290, 500, 710, 980];
-const labels = [null, document.getElementById('lbl-1'), document.getElementById('lbl-2'), document.getElementById('lbl-3'), document.getElementById('lbl-4')];
-let currentStep = 0;
-let trackAnimating = false;
-
-function activateStep(step) {
-  cards.forEach((c, i) => c.classList.toggle('active', i === step));
-  // Update labels color
-  labels.forEach((l, i) => {
-    if (!l) return;
-    l.setAttribute('fill', i <= step ? (i === 4 ? '#854F0B' : '#1a1a1a') : '#888');
-    l.setAttribute('font-weight', i === step ? '800' : '700');
-  });
-  // Update SVG nodes
-  for (let i = 0; i < 5; i++) {
-    const n = document.getElementById('node-' + i);
-    if (!n) continue;
-    const circles = n.querySelectorAll('circle');
-    if (i < step) {
-      circles[0].setAttribute('fill', i === 4 ? '#FAEEDA' : '#E1F5EE');
-      circles[0].setAttribute('stroke', nodeColors[i]);
-      circles[1].setAttribute('fill', nodeColors[i]);
-    } else if (i === step) {
-      circles[0].setAttribute('fill', i === 4 ? '#FAEEDA' : '#E1F5EE');
-      circles[0].setAttribute('stroke', nodeColors[i]);
-      circles[0].setAttribute('stroke-width', '3');
-      circles[1].setAttribute('fill', nodeColors[i]);
-    } else {
-      circles[0].setAttribute('fill', '#f6f5f1');
-      circles[0].setAttribute('stroke', '#D3D1C7');
-      circles[0].setAttribute('stroke-width', '2');
-      circles[1].setAttribute('fill', '#B4B2A9');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearPath Leads — Your Pipeline, Automated</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
     }
-  }
-}
 
-/* ── Animated packet along track ── */
-function animatePacket(pktId, fromX, toX, delay, color) {
-  const pkt = document.getElementById(pktId);
-  if (!pkt) return;
-  pkt.setAttribute('fill', color);
-  const duration = 900;
-  let start = null;
-  setTimeout(() => {
-    pkt.setAttribute('opacity', '1');
-    function step(ts) {
-      if (!start) start = ts;
-      const progress = Math.min((ts - start) / duration, 1);
-      // ease in-out
-      const eased = progress < .5 ? 2*progress*progress : -1+(4-2*progress)*progress;
-      const x = fromX + (toX - fromX) * eased;
-      pkt.setAttribute('cx', x);
-      if (progress < 1) requestAnimationFrame(step);
-      else {
-        pkt.setAttribute('opacity', '0');
-        pkt.setAttribute('cx', fromX);
+    :root {
+      --teal: #0F6E56;
+      --teal-mid: #1D9E75;
+      --teal-light: #E1F5EE;
+      --teal-dark: #085041;
+      --amber: #EF9F27;
+      --amber-light: #FAEEDA;
+      --amber-dark: #7a4a00;
+      --coral: #D85A30;
+      --ink: #1a1a1a;
+      --ink-soft: #555;
+      --smoke: #f6f5f1;
+      --white: #fff;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden
+    }
+
+    /* ─── NAV ─── */
+
+
+
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      border-bottom: 1px solid rgba(0, 0, 0, .07);
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(10px);
+      z-index: 200
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -.02em;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--ink);
+      text-decoration: none
+    }
+
+    .logo-box {
+      width: 28px;
+      height: 28px;
+      background: var(--teal);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .logo-box svg {
+      width: 15px;
+      height: 15px
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none
+    }
+
+    nav ul a {
+      font-size: .875rem;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    nav ul a:hover {
+      color: var(--teal)
+    }
+
+    .btn-nav {
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      padding: .55rem 1.3rem;
+      border-radius: 7px;
+      font-size: .85rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .2s
+    }
+
+    .btn-nav:hover {
+      background: var(--teal-dark)
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 600px;
+      height: 600px;
+      background: var(--teal-light);
+      opacity: .5;
+      top: -180px;
+      right: -180px;
+      animation: orb1 12s ease-in-out infinite
+    }
+
+    .orb2 {
+      width: 350px;
+      height: 350px;
+      background: var(--amber-light);
+      opacity: .45;
+      bottom: -100px;
+      left: -80px;
+      animation: orb2 15s ease-in-out infinite
+    }
+
+    @keyframes orb1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      50% {
+        transform: translate(-40px, 30px) scale(1.05)
       }
     }
-    requestAnimationFrame(step);
-  }, delay);
-}
 
-/* ── Animate active track line ── */
-function animateTrack(toX) {
-  const track = document.getElementById('active-track');
-  const current = parseFloat(track.getAttribute('x2')) || 80;
-  const duration = 900;
-  let start = null;
-  function step(ts) {
-    if (!start) start = ts;
-    const progress = Math.min((ts - start) / duration, 1);
-    const eased = progress < .5 ? 2*progress*progress : -1+(4-2*progress)*progress;
-    const x = current + (toX - current) * eased;
-    track.setAttribute('x2', x);
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
+    @keyframes orb2 {
 
-/* ── Step auto-advance ── */
-let stepTimer;
-function advanceStep() {
-  const nextStep = (currentStep + 1) % 5;
-  const fromX = nodeXs[currentStep];
-  const toX = nodeXs[nextStep];
-  animatePacket('pkt0', fromX, toX, 0, '#0F6E56');
-  animatePacket('pkt1', fromX, toX, 200, '#1D9E75');
-  animatePacket('pkt2', fromX, toX, 400, nextStep === 4 ? '#EF9F27' : '#5DCAA5');
-  animateTrack(toX);
-  setTimeout(() => {
-    currentStep = nextStep;
-    activateStep(currentStep);
-  }, 850);
-}
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
 
-activateStep(0);
-stepTimer = setInterval(advanceStep, 2200);
-
-/* ── Counter animation ── */
-const counters = [
-  { id: 'sn0', target: 4700000, suffix: '+', format: n => (n/1000000).toFixed(1)+'M+' },
-  { id: 'sn1', target: 94, suffix: '%', format: n => Math.round(n)+'%' },
-  { id: 'sn2', target: 2400, suffix: '+', format: n => Math.round(n).toLocaleString()+'+' },
-  { id: 'sn3', target: 3.2, suffix: '×', format: n => n.toFixed(1)+'×' },
-];
-let countersStarted = false;
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting && !countersStarted) {
-      countersStarted = true;
-      counters.forEach(({id, target, format}, idx) => {
-        const el = document.getElementById(id);
-        const duration = 1600;
-        const startDelay = idx * 150;
-        setTimeout(() => {
-          let start = null;
-          function step(ts) {
-            if (!start) start = ts;
-            const progress = Math.min((ts - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            el.textContent = format(target * eased);
-            if (progress < 1) requestAnimationFrame(step);
-            else el.textContent = format(target);
-          }
-          requestAnimationFrame(step);
-        }, startDelay);
-      });
+      50% {
+        transform: translate(30px, -25px) scale(1.08)
+      }
     }
-  });
-}, { threshold: 0.3 });
-document.querySelector('.stats-band').querySelectorAll('.stat').forEach(s => statsObserver.observe(s));
-</script>
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 780px
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: .75rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      letter-spacing: .04em;
+      opacity: 0;
+      animation: fadeUp .7s .2s ease forwards
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--teal-mid);
+      border-radius: 50%;
+      animation: pulse 2s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.4)
+      }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 1.06;
+      letter-spacing: -.04em;
+      margin-bottom: 1.1rem;
+      opacity: 0;
+      animation: fadeUp .7s .35s ease forwards
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--teal)
+    }
+
+    .hero p {
+      font-size: 1.08rem;
+      color: var(--ink-soft);
+      line-height: 1.75;
+      max-width: 560px;
+      margin: 0 auto 2.25rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp .7s .5s ease forwards
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .7s .65s ease forwards
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      padding: .9rem 2rem;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .22s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-2px)
+    }
+
+    .btn-primary svg {
+      width: 16px;
+      height: 16px
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid rgba(0, 0, 0, .14);
+      padding: .9rem 1.8rem;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all .22s
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--teal);
+      color: var(--teal)
+    }
+
+    .scroll-hint {
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp .7s .9s ease forwards
+    }
+
+    .scroll-hint span {
+      font-size: .75rem;
+      color: var(--ink-soft);
+      letter-spacing: .05em;
+      display: block;
+      margin-bottom: 8px
+    }
+
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      margin: 0 auto;
+      animation: bounce 2s ease-in-out infinite
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(6px)
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(22px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ─── PIPELINE SECTION ─── */
+    .pipeline-section {
+      padding: 6rem 2rem;
+      background: var(--smoke)
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4.5rem
+    }
+
+    .sec-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: .7rem
+    }
+
+    .sec-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.9rem, 3vw, 2.8rem);
+      letter-spacing: -.03em;
+      margin-bottom: .75rem
+    }
+
+    .sec-sub {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.72;
+      font-weight: 300
+    }
+
+    /* ─── ANIMATED PIPELINE DIAGRAM ─── */
+    .pipeline-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative
+    }
+
+    /* SVG track */
+    .pipeline-svg-track {
+      width: 100%;
+      overflow: visible
+    }
+
+    /* Step cards below track */
+    .pipe-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      margin-top: 2rem
+    }
+
+    .pipe-card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 16px;
+      padding: 1.4rem 1.1rem;
+      text-align: center;
+      transition: all .35s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pipe-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: var(--teal);
+      opacity: 0;
+      transition: opacity .35s;
+      z-index: 0
+    }
+
+    .pipe-card.active::before {
+      opacity: 1
+    }
+
+    .pipe-card-inner {
+      position: relative;
+      z-index: 1
+    }
+
+    .pipe-card.active .pipe-num,
+    .pipe-card.active .pipe-name,
+    .pipe-card.active .pipe-desc {
+      color: #fff
+    }
+
+    .pipe-card.active .pipe-icon-wrap {
+      background: rgba(255, 255, 255, .2);
+      border-color: rgba(255, 255, 255, .3)
+    }
+
+    .pipe-card.active .pipe-icon-wrap svg {
+      stroke: #fff
+    }
+
+    .pipe-num {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: .6rem;
+      transition: color .35s
+    }
+
+    .pipe-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--teal-light);
+      border: 1px solid rgba(15, 110, 86, .2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto .85rem;
+      transition: all .35s
+    }
+
+    .pipe-icon-wrap svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--teal);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke .35s
+    }
+
+    .pipe-name {
+      font-family: 'Syne', sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .35rem;
+      transition: color .35s
+    }
+
+    .pipe-desc {
+      font-size: .78rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      font-weight: 300;
+      transition: color .35s
+    }
+
+    /* ─── ANIMATED DATA PACKETS ─── */
+    .packet {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #svg-track {
+      overflow: visible
+    }
+
+    /* ─── LEAD TICKER ─── */
+    .lead-ticker {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 16px;
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow: hidden
+    }
+
+    .ticker-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .ticker-divider {
+      width: 1px;
+      height: 32px;
+      background: rgba(0, 0, 0, .1);
+      flex-shrink: 0
+    }
+
+    .ticker-track {
+      flex: 1;
+      overflow: hidden;
+      height: 36px;
+      position: relative
+    }
+
+    .ticker-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      animation: tickerScroll 10s linear infinite
+    }
+
+    .ticker-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 36px
+    }
+
+    .t-av {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .t-name {
+      font-size: .85rem;
+      font-weight: 500
+    }
+
+    .t-co {
+      font-size: .75rem;
+      color: var(--ink-soft)
+    }
+
+    .t-score {
+      margin-left: auto;
+      font-size: .72rem;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 100px
+    }
+
+    .t-high {
+      background: var(--teal-light);
+      color: var(--teal-dark)
+    }
+
+    .t-med {
+      background: var(--amber-light);
+      color: var(--amber-dark)
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateY(0)
+      }
+
+      100% {
+        transform: translateY(-50%)
+      }
+    }
+
+    /* ─── STATS BAND ─── */
+    .stats-band {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--teal)
+    }
+
+    .stat {
+      text-align: center;
+      padding: 3rem 1rem;
+      border-right: 1px solid rgba(255, 255, 255, .18)
+    }
+
+    .stat:last-child {
+      border-right: none
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      counter-reset: count var(--target)
+    }
+
+    .stat-desc {
+      font-size: .9rem;
+      color: rgba(255, 255, 255, .72);
+      margin-top: 6px
+    }
+
+    /* ─── HOW SECTION BELOW ─── */
+    .how-section {
+      padding: 6rem 2rem
+    }
+
+    .how-grid {
+      max-width: 1100px;
+      margin: 3.5rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem
+    }
+
+    .how-card {
+      padding: 2rem;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      transition: all .3s
+    }
+
+    .how-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(15, 110, 86, .25)
+    }
+
+    .how-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 4rem;
+      font-weight: 800;
+      color: var(--teal-light);
+      line-height: 1;
+      margin-bottom: .6rem
+    }
+
+    .how-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--teal-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem
+    }
+
+    .how-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--teal);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .how-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .5rem
+    }
+
+    .how-desc {
+      font-size: .875rem;
+      color: var(--ink-soft);
+      line-height: 1.7;
+      font-weight: 300
+    }
+
+    /* ─── PLANS ─── */
+    .plans-section {
+      padding: 6rem 2rem;
+      background: var(--smoke)
+    }
+
+    .plans-grid {
+      max-width: 1100px;
+      margin: 3.5rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .plan {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 18px;
+      padding: 2rem;
+      position: relative;
+      transition: all .3s;
+      cursor: pointer
+    }
+
+    .plan:hover {
+      transform: translateY(-5px)
+    }
+
+    .plan.featured {
+      background: var(--teal);
+      border-color: var(--teal)
+    }
+
+    .plan.featured .plan-price,
+    .plan.featured .plan-name,
+    .plan.featured .plan-sub {
+      color: #fff !important
+    }
+
+    .plan.featured li {
+      color: rgba(255, 255, 255, .85) !important
+    }
+
+    .plan.featured .pcheck {
+      color: var(--amber) !important
+    }
+
+    .plan.featured .plan-div {
+      background: rgba(255, 255, 255, .2) !important
+    }
+
+    .plan.featured .plan-btn {
+      background: #fff;
+      color: var(--teal);
+      border-color: #fff
+    }
+
+    .pop-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--amber);
+      color: #3a1f00;
+      font-size: .68rem;
+      font-weight: 600;
+      padding: 4px 11px;
+      border-radius: 100px
+    }
+
+    .plan-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: .4rem
+    }
+
+    .plan-price {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.3rem;
+      line-height: 1.1
+    }
+
+    .plan-price span {
+      font-size: .95rem;
+      font-weight: 400;
+      color: var(--ink-soft)
+    }
+
+    .plan-sub {
+      font-size: .8rem;
+      color: var(--ink-soft);
+      margin: .45rem 0 1.1rem
+    }
+
+    .plan-div {
+      height: 1px;
+      background: rgba(0, 0, 0, .08);
+      margin-bottom: 1.1rem
+    }
+
+    .plan ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 1.6rem
+    }
+
+    .plan li {
+      font-size: .85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink-soft)
+    }
+
+    .pcheck {
+      color: var(--teal);
+      font-weight: 700
+    }
+
+    .plan-btn {
+      width: 100%;
+      padding: .75rem;
+      border-radius: 9px;
+      font-size: .9rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, .12);
+      background: transparent;
+      transition: all .22s
+    }
+
+    .plan-btn:hover {
+      background: var(--smoke)
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testi-section {
+      padding: 6rem 2rem
+    }
+
+    .testi-grid {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem
+    }
+
+    .tcard {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 16px;
+      padding: 1.75rem
+    }
+
+    .stars {
+      color: var(--amber);
+      margin-bottom: .9rem;
+      font-size: .9rem
+    }
+
+    .ttext {
+      font-size: .875rem;
+      line-height: 1.72;
+      color: var(--ink-soft);
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 1.2rem
+    }
+
+    .tauthor {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .tav {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .72rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    .tan {
+      font-size: .85rem;
+      font-weight: 500
+    }
+
+    .tat {
+      font-size: .74rem;
+      color: var(--ink-soft)
+    }
+
+    /* ─── FINAL CTA ─── */
+    .cta-final {
+      padding: 7rem 2rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--white) 0%, var(--teal-light) 100%)
+    }
+
+    .cta-final h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -.035em;
+      margin-bottom: .9rem
+    }
+
+    .cta-final p {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      margin-bottom: 2.2rem;
+      font-weight: 300
+    }
+
+    .cta-final-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, .5);
+      padding: 2.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem
+    }
+
+    footer a.logo {
+      color: #fff
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, .45);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .footer-links a:hover {
+      color: rgba(255, 255, 255, .8)
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .reveal-delay-1 {
+      transition-delay: .1s
+    }
+
+    .reveal-delay-2 {
+      transition-delay: .2s
+    }
+
+    .reveal-delay-3 {
+      transition-delay: .3s
+    }
+
+    .reveal-delay-4 {
+      transition-delay: .4s
+    }
+
+    .reveal-delay-5 {
+      transition-delay: .5s
+    }
+
+    @media(max-width:860px) {
+      nav ul {
+        display: none
+      }
+
+      nav {
+        padding: 1rem 1.5rem
+      }
+
+      .hero {
+        padding: 4rem 1.5rem 2.5rem
+      }
+
+      .pipeline-section,
+      .how-section,
+      .plans-section,
+      .testi-section,
+      .cta-final {
+        padding: 4rem 1.5rem
+      }
+
+      .pipe-steps {
+        grid-template-columns: 1fr 1fr;
+        gap: .85rem
+      }
+
+      .stats-band {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .stat {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, .15);
+        padding: 2rem 1rem
+      }
+
+      .stat:nth-child(3),
+      .stat:nth-child(4) {
+        border-bottom: none
+      }
+
+      .how-grid,
+      .plans-grid,
+      .testi-grid {
+        grid-template-columns: 1fr
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1.75rem
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
+          <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></div>
+      ClearPath Leads
+    </a>
+    <ul>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#plans">Pricing</a></li>
+      <li><a href="#stories">Stories</a></li>
+    </ul>
+    <button class="btn-nav">Start free trial</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="live-dot"></span> Verified leads — delivered daily</div>
+      <h1>Your lead pipeline,<br><em>automated end-to-end</em></h1>
+      <p>ClearPath finds, verifies, and delivers high-quality leads directly to your team — so you spend time closing
+        deals, not chasing contacts.</p>
+      <div class="hero-cta">
+        <button class="btn-primary">Start for free <svg viewBox="0 0 16 16" fill="none" stroke="white"
+            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg></button>
+        <button class="btn-ghost">Watch demo</button>
+      </div>
+      <div class="scroll-hint">
+        <span>See how it works</span>
+        <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="var(--ink-soft)" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ANIMATED PIPELINE ─── -->
+  <section class="pipeline-section" id="pipeline">
+    <div class="section-header reveal">
+      <div class="sec-label">The pipeline</div>
+      <h2 class="sec-title">Five stages. Fully automated.</h2>
+      <p class="sec-sub">Watch how a lead travels from raw data to a closed deal — in real time, every time.</p>
+    </div>
+
+    <div class="pipeline-wrap">
+      <!-- SVG animated track -->
+      <svg id="svg-track" class="pipeline-svg-track" viewBox="0 0 1060 90" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <!-- Track gradient -->
+          <linearGradient id="trackGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#0F6E56" />
+            <stop offset="80%" stop-color="#1D9E75" />
+            <stop offset="100%" stop-color="#EF9F27" />
+          </linearGradient>
+          <!-- Glow filter -->
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <!-- Node glow -->
+          <filter id="nodeGlow">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Track line (dashed background) -->
+        <line x1="80" y1="45" x2="980" y2="45" stroke="#D3D1C7" stroke-width="2" stroke-dasharray="6 4" />
+
+        <!-- Active track (animated width) -->
+        <line id="active-track" x1="80" y1="45" x2="80" y2="45" stroke="url(#trackGrad)" stroke-width="3"
+          stroke-linecap="round" />
+
+        <!-- Step nodes -->
+        <g id="node-0">
+          <circle cx="80" cy="45" r="22" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2" />
+          <circle cx="80" cy="45" r="10" fill="#0F6E56" />
+        </g>
+        <g id="node-1">
+          <circle cx="290" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2" />
+          <circle cx="290" cy="45" r="10" fill="#B4B2A9" />
+        </g>
+        <g id="node-2">
+          <circle cx="500" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2" />
+          <circle cx="500" cy="45" r="10" fill="#B4B2A9" />
+        </g>
+        <g id="node-3">
+          <circle cx="710" cy="45" r="22" fill="#E1F5EE" stroke="#D3D1C7" stroke-width="2" />
+          <circle cx="710" cy="45" r="10" fill="#B4B2A9" />
+        </g>
+        <g id="node-4">
+          <circle cx="980" cy="45" r="28" fill="#FAEEDA" stroke="#EF9F27" stroke-width="2.5" />
+          <circle cx="980" cy="45" r="13" fill="#EF9F27" />
+        </g>
+
+        <!-- Labels above -->
+        <text x="80" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888"
+          font-weight="500">STEP 1</text>
+        <text x="290" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888"
+          font-weight="500">STEP 2</text>
+        <text x="500" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888"
+          font-weight="500">STEP 3</text>
+        <text x="710" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888"
+          font-weight="500">STEP 4</text>
+        <text x="980" y="16" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="11" fill="#888"
+          font-weight="500">STEP 5</text>
+
+        <!-- Labels below -->
+        <text x="80" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#1a1a1a"
+          font-weight="700">Define</text>
+        <text x="290" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888"
+          font-weight="700" id="lbl-1">AI Source</text>
+        <text x="500" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888"
+          font-weight="700" id="lbl-2">Verify</text>
+        <text x="710" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#888"
+          font-weight="700" id="lbl-3">Deliver</text>
+        <text x="980" y="78" text-anchor="middle" font-family="'Syne',sans-serif" font-size="12" fill="#854F0B"
+          font-weight="700" id="lbl-4">Close Deal</text>
+
+        <!-- Animated packets (3 dots travel the track) -->
+        <circle id="pkt0" cx="80" cy="45" r="7" fill="#0F6E56" filter="url(#glow)" opacity="0" />
+        <circle id="pkt1" cx="80" cy="45" r="7" fill="#1D9E75" filter="url(#glow)" opacity="0" />
+        <circle id="pkt2" cx="80" cy="45" r="5" fill="#EF9F27" filter="url(#glow)" opacity="0" />
+      </svg>
+
+      <!-- Step cards -->
+      <div class="pipe-steps">
+        <div class="pipe-card active reveal reveal-delay-1" id="card-0">
+          <div class="pipe-card-inner">
+            <div class="pipe-num">Step 01</div>
+            <div class="pipe-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+                <path d="M7 12h10M7 8h6M7 16h8" />
+              </svg>
+            </div>
+            <div class="pipe-name">Define target</div>
+            <div class="pipe-desc">Set your ideal customer profile — industry, size, location, and signals</div>
+          </div>
+        </div>
+        <div class="pipe-card reveal reveal-delay-2" id="card-1">
+          <div class="pipe-card-inner">
+            <div class="pipe-num">Step 02</div>
+            <div class="pipe-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M16.5 16.5L21 21" />
+              </svg>
+            </div>
+            <div class="pipe-name">AI sourcing</div>
+            <div class="pipe-desc">Our engine scans 50M+ data points across web, social, and intent signals</div>
+          </div>
+        </div>
+        <div class="pipe-card reveal reveal-delay-3" id="card-2">
+          <div class="pipe-card-inner">
+            <div class="pipe-num">Step 03</div>
+            <div class="pipe-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <path d="M9 12l2 2 4-4" />
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+              </svg>
+            </div>
+            <div class="pipe-name">Verify &amp; score</div>
+            <div class="pipe-desc">Each lead is validated, deduplicated, and scored for quality and fit</div>
+          </div>
+        </div>
+        <div class="pipe-card reveal reveal-delay-4" id="card-3">
+          <div class="pipe-card-inner">
+            <div class="pipe-num">Step 04</div>
+            <div class="pipe-icon-wrap">
+              <svg viewBox="0 0 24 24">
+                <path d="M22 2L11 13" />
+                <path d="M22 2L15 22 11 13 2 9l20-7z" />
+              </svg>
+            </div>
+            <div class="pipe-name">Deliver to CRM</div>
+            <div class="pipe-desc">Verified leads push straight into Salesforce, HubSpot, or your inbox</div>
+          </div>
+        </div>
+        <div class="pipe-card reveal reveal-delay-5" id="card-4">
+          <div class="pipe-card-inner">
+            <div class="pipe-num">Step 05</div>
+            <div class="pipe-icon-wrap" style="background:var(--amber-light);border-color:rgba(239,159,39,.3)">
+              <svg viewBox="0 0 24 24" style="stroke:var(--amber)">
+                <path d="M12 2l3.1 6.2L22 9.3l-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8-5-4.9 6.9-1.1L12 2z" />
+              </svg>
+            </div>
+            <div class="pipe-name">Close the deal</div>
+            <div class="pipe-desc">You focus on conversations and conversions — we handle the rest</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live lead ticker -->
+      <div class="lead-ticker reveal">
+        <span class="ticker-label">Live feed</span>
+        <div class="ticker-divider"></div>
+        <div class="ticker-track">
+          <div class="ticker-inner" id="ticker">
+            <div class="ticker-row">
+              <div class="t-av" style="background:#1D9E75">DM</div>
+              <div>
+                <div class="t-name">David Müller</div>
+                <div class="t-co">Müller & Partners · Finance</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 95</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#7F77DD">PK</div>
+              <div>
+                <div class="t-name">Priya Krishnan</div>
+                <div class="t-co">BrightScale SaaS · Tech</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 91</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#EF9F27">RL</div>
+              <div>
+                <div class="t-name">Rafael Lima</div>
+                <div class="t-co">Atlas Realty · Real estate</div>
+              </div><span class="t-score t-med" style="margin-left:auto">Score 78</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#D85A30">SR</div>
+              <div>
+                <div class="t-name">Sofia Rossi</div>
+                <div class="t-co">NovaMed · Healthcare</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 88</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#185FA5">JK</div>
+              <div>
+                <div class="t-name">James Kim</div>
+                <div class="t-co">EdgeCloud · Technology</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 93</span>
+            </div>
+            <!-- duplicate for seamless loop -->
+            <div class="ticker-row">
+              <div class="t-av" style="background:#1D9E75">DM</div>
+              <div>
+                <div class="t-name">David Müller</div>
+                <div class="t-co">Müller & Partners · Finance</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 95</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#7F77DD">PK</div>
+              <div>
+                <div class="t-name">Priya Krishnan</div>
+                <div class="t-co">BrightScale SaaS · Tech</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 91</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#EF9F27">RL</div>
+              <div>
+                <div class="t-name">Rafael Lima</div>
+                <div class="t-co">Atlas Realty · Real estate</div>
+              </div><span class="t-score t-med" style="margin-left:auto">Score 78</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#D85A30">SR</div>
+              <div>
+                <div class="t-name">Sofia Rossi</div>
+                <div class="t-co">NovaMed · Healthcare</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 88</span>
+            </div>
+            <div class="ticker-row">
+              <div class="t-av" style="background:#185FA5">JK</div>
+              <div>
+                <div class="t-name">James Kim</div>
+                <div class="t-co">EdgeCloud · Technology</div>
+              </div><span class="t-score t-high" style="margin-left:auto">Score 93</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-band">
+    <div class="stat reveal">
+      <div class="stat-num" id="sn0">0</div>
+      <div class="stat-desc">Leads delivered</div>
+    </div>
+    <div class="stat reveal reveal-delay-1">
+      <div class="stat-num" id="sn1">0</div>
+      <div class="stat-desc">Verified accuracy</div>
+    </div>
+    <div class="stat reveal reveal-delay-2">
+      <div class="stat-num" id="sn2">0</div>
+      <div class="stat-desc">Active businesses</div>
+    </div>
+    <div class="stat reveal reveal-delay-3">
+      <div class="stat-num" id="sn3">0</div>
+      <div class="stat-desc">Average ROI</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="section-header reveal" style="text-align:center">
+      <div class="sec-label">Why it works</div>
+      <h2 class="sec-title">Built differently from the ground up</h2>
+      <p class="sec-sub">Most lead tools give you a list. ClearPath gives you a living pipeline that works while you
+        sleep.</p>
+    </div>
+    <div class="how-grid" style="max-width:1100px;margin:3.5rem auto 0">
+      <div class="how-card reveal reveal-delay-1">
+        <div class="how-num">01</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 3" />
+          </svg></div>
+        <div class="how-title">Real-time delivery</div>
+        <div class="how-desc">Leads arrive within minutes of verification. No weekly batches, no stale contacts — every
+          lead is fresh when it lands in your inbox.</div>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="how-num">02</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.1 6.2L22 9.3l-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8-5-4.9 6.9-1.1z" />
+          </svg></div>
+        <div class="how-title">AI-powered scoring</div>
+        <div class="how-desc">Every lead gets a quality score based on buying intent signals, ICP fit, and engagement
+          likelihood — so you know exactly who to call first.</div>
+      </div>
+      <div class="how-card reveal reveal-delay-3">
+        <div class="how-num">03</div>
+        <div class="how-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.7"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h5v5H4zM11 4h5v5h-5zM4 11h5v5H4zM11 11h5v5h-5z" />
+          </svg></div>
+        <div class="how-title">Seamless integration</div>
+        <div class="how-desc">Connects to Salesforce, HubSpot, Pipedrive, and 20+ tools. Leads appear in your existing
+          workflow — zero extra steps or manual imports.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section class="plans-section" id="plans">
+    <div class="section-header reveal" style="text-align:center">
+      <div class="sec-label">Pricing</div>
+      <h2 class="sec-title">Plans that grow with you</h2>
+      <p class="sec-sub">No contracts. No lock-ins. Scale up or cancel anytime.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan reveal reveal-delay-1">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$149<span>/mo</span></div>
+        <div class="plan-sub">For freelancers and solo closers just getting started.</div>
+        <div class="plan-div"></div>
+        <ul>
+          <li><span class="pcheck">✓</span> 150 verified leads / month</li>
+          <li><span class="pcheck">✓</span> 2 industry verticals</li>
+          <li><span class="pcheck">✓</span> Email delivery</li>
+          <li><span class="pcheck">✓</span> Basic lead scoring</li>
+          <li><span class="pcheck">✓</span> Email support</li>
+        </ul>
+        <button class="plan-btn">Get started</button>
+      </div>
+      <div class="plan featured reveal reveal-delay-2">
+        <div class="pop-badge">Most popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-price">$399<span>/mo</span></div>
+        <div class="plan-sub">For growing teams that need volume and speed.</div>
+        <div class="plan-div"></div>
+        <ul>
+          <li><span class="pcheck">✓</span> 500 verified leads / month</li>
+          <li><span class="pcheck">✓</span> Unlimited verticals</li>
+          <li><span class="pcheck">✓</span> CRM + Slack integration</li>
+          <li><span class="pcheck">✓</span> Advanced lead scoring</li>
+          <li><span class="pcheck">✓</span> Priority support</li>
+        </ul>
+        <button class="plan-btn">Get started</button>
+      </div>
+      <div class="plan reveal reveal-delay-3">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price">Custom</div>
+        <div class="plan-sub">For large orgs with unique requirements and scale.</div>
+        <div class="plan-div"></div>
+        <ul>
+          <li><span class="pcheck">✓</span> Unlimited leads</li>
+          <li><span class="pcheck">✓</span> Dedicated account manager</li>
+          <li><span class="pcheck">✓</span> Custom API access</li>
+          <li><span class="pcheck">✓</span> White-label options</li>
+          <li><span class="pcheck">✓</span> SLA guarantee</li>
+        </ul>
+        <button class="plan-btn">Talk to sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section" id="stories">
+    <div class="section-header reveal" style="text-align:center">
+      <div class="sec-label">Customer stories</div>
+      <h2 class="sec-title">Real results, real businesses</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard reveal reveal-delay-1">
+        <div class="stars">★★★★★</div>
+        <p class="ttext">"We went from manually prospecting 4 hours a day to a full inbox of qualified leads every
+          morning. Our close rate jumped 40% in two months."</p>
+        <div class="tauthor">
+          <div class="tav" style="background:#1D9E75">JR</div>
+          <div>
+            <div class="tan">Jamie Reyes</div>
+            <div class="tat">Sales Director, Helix Software</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal reveal-delay-2">
+        <div class="stars">★★★★★</div>
+        <p class="ttext">"The lead quality is genuinely impressive. We've tried five other services — ClearPath is the
+          only one where nearly every contact actually picks up."</p>
+        <div class="tauthor">
+          <div class="tav" style="background:#D85A30">NW</div>
+          <div>
+            <div class="tan">Nadia Weber</div>
+            <div class="tat">Founder, Weber Consulting</div>
+          </div>
+        </div>
+      </div>
+      <div class="tcard reveal reveal-delay-3">
+        <div class="stars">★★★★★</div>
+        <p class="ttext">"Setup took under 10 minutes and leads arrived within the hour. I've never seen a tool this
+          fast to value. Our pipeline is unrecognisable."</p>
+        <div class="tauthor">
+          <div class="tav" style="background:#7F77DD">TN</div>
+          <div>
+            <div class="tan">Thomas Nguyen</div>
+            <div class="tat">Head of Growth, Arcadia Realty</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-final">
+    <h2 class="reveal">Ready to fill your pipeline?</h2>
+    <p class="reveal reveal-delay-1">Start your free trial today — no credit card required. First leads in under 10
+      minutes.</p>
+    <div class="cta-final-btns reveal reveal-delay-2">
+      <button class="btn-primary">Start for free <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 8h10M9 4l4 4-4 4" />
+        </svg></button>
+      <button class="btn-ghost">Book a demo</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="logo">
+      <div class="logo-box"><svg viewBox="0 0 15 15" fill="none">
+          <path d="M1.5 7.5L5.5 11.5L13.5 3.5" stroke="white" stroke-width="2.2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg></div>
+      ClearPath Leads
+    </a>
+    <span>© 2026 ClearPath Leads. All rights reserved.</span>
+    <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+  </footer>
+
+  <script>
+    /* ── Scroll reveal ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── Pipeline step cycler ── */
+    const cards = document.querySelectorAll('.pipe-card');
+    const nodeColors = ['#0F6E56', '#0F6E56', '#0F6E56', '#0F6E56', '#EF9F27'];
+    const nodeInner = [10, 10, 10, 10, 13];
+    const nodeXs = [80, 290, 500, 710, 980];
+    const labels = [null, document.getElementById('lbl-1'), document.getElementById('lbl-2'), document.getElementById('lbl-3'), document.getElementById('lbl-4')];
+    let currentStep = 0;
+    let trackAnimating = false;
+
+    function activateStep(step) {
+      cards.forEach((c, i) => c.classList.toggle('active', i === step));
+      // Update labels color
+      labels.forEach((l, i) => {
+        if (!l) return;
+        l.setAttribute('fill', i <= step ? (i === 4 ? '#854F0B' : '#1a1a1a') : '#888');
+        l.setAttribute('font-weight', i === step ? '800' : '700');
+      });
+      // Update SVG nodes
+      for (let i = 0; i < 5; i++) {
+        const n = document.getElementById('node-' + i);
+        if (!n) continue;
+        const circles = n.querySelectorAll('circle');
+        if (i < step) {
+          circles[0].setAttribute('fill', i === 4 ? '#FAEEDA' : '#E1F5EE');
+          circles[0].setAttribute('stroke', nodeColors[i]);
+          circles[1].setAttribute('fill', nodeColors[i]);
+        } else if (i === step) {
+          circles[0].setAttribute('fill', i === 4 ? '#FAEEDA' : '#E1F5EE');
+          circles[0].setAttribute('stroke', nodeColors[i]);
+          circles[0].setAttribute('stroke-width', '3');
+          circles[1].setAttribute('fill', nodeColors[i]);
+        } else {
+          circles[0].setAttribute('fill', '#f6f5f1');
+          circles[0].setAttribute('stroke', '#D3D1C7');
+          circles[0].setAttribute('stroke-width', '2');
+          circles[1].setAttribute('fill', '#B4B2A9');
+        }
+      }
+    }
+
+    /* ── Animated packet along track ── */
+    function animatePacket(pktId, fromX, toX, delay, color) {
+      const pkt = document.getElementById(pktId);
+      if (!pkt) return;
+      pkt.setAttribute('fill', color);
+      const duration = 900;
+      let start = null;
+      setTimeout(() => {
+        pkt.setAttribute('opacity', '1');
+        function step(ts) {
+          if (!start) start = ts;
+          const progress = Math.min((ts - start) / duration, 1);
+          // ease in-out
+          const eased = progress < .5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+          const x = fromX + (toX - fromX) * eased;
+          pkt.setAttribute('cx', x);
+          if (progress < 1) requestAnimationFrame(step);
+          else {
+            pkt.setAttribute('opacity', '0');
+            pkt.setAttribute('cx', fromX);
+          }
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    /* ── Animate active track line ── */
+    function animateTrack(toX) {
+      const track = document.getElementById('active-track');
+      const current = parseFloat(track.getAttribute('x2')) || 80;
+      const duration = 900;
+      let start = null;
+      function step(ts) {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const eased = progress < .5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+        const x = current + (toX - current) * eased;
+        track.setAttribute('x2', x);
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    /* ── Step auto-advance ── */
+    let stepTimer;
+    function advanceStep() {
+      const nextStep = (currentStep + 1) % 5;
+      const fromX = nodeXs[currentStep];
+      const toX = nodeXs[nextStep];
+      animatePacket('pkt0', fromX, toX, 0, '#0F6E56');
+      animatePacket('pkt1', fromX, toX, 200, '#1D9E75');
+      animatePacket('pkt2', fromX, toX, 400, nextStep === 4 ? '#EF9F27' : '#5DCAA5');
+      animateTrack(toX);
+      setTimeout(() => {
+        currentStep = nextStep;
+        activateStep(currentStep);
+      }, 850);
+    }
+
+    activateStep(0);
+    stepTimer = setInterval(advanceStep, 2200);
+
+    /* ── Counter animation ── */
+    const counters = [
+      { id: 'sn0', target: 4700000, suffix: '+', format: n => (n / 1000000).toFixed(1) + 'M+' },
+      { id: 'sn1', target: 94, suffix: '%', format: n => Math.round(n) + '%' },
+      { id: 'sn2', target: 2400, suffix: '+', format: n => Math.round(n).toLocaleString() + '+' },
+      { id: 'sn3', target: 3.2, suffix: '×', format: n => n.toFixed(1) + '×' },
+    ];
+    let countersStarted = false;
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !countersStarted) {
+          countersStarted = true;
+          counters.forEach(({ id, target, format }, idx) => {
+            const el = document.getElementById(id);
+            const duration = 1600;
+            const startDelay = idx * 150;
+            setTimeout(() => {
+              let start = null;
+              function step(ts) {
+                if (!start) start = ts;
+                const progress = Math.min((ts - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = format(target * eased);
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = format(target);
+              }
+              requestAnimationFrame(step);
+            }, startDelay);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelector('.stats-band').querySelectorAll('.stat').forEach(s => statsObserver.observe(s));
+  </script>
 </body>
+
 </html>
